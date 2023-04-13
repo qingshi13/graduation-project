@@ -24,4 +24,5 @@ public class Coach {
     private String description;
     private String address;
     private Integer maxpeople;
+    private Integer recruitNumber;
 }

@@ -62,8 +62,17 @@ public class CoachController {
 
     @GetMapping("/coach/limit/{coachId}")
     public Result limit(@PathVariable Integer coachId){
-        System.out.println(coachService.limit(coachId));
+
         return Result.success(coachService.limit(coachId));
+    }
+
+    @GetMapping("/coach/getstudent")
+    public Result getStudent(
+                        @RequestParam Integer coachId,
+                        @RequestParam Integer pageNum,
+                        @RequestParam Integer pageSize){
+
+        return Result.success(coachService.getStudent(new Page<>(pageNum, pageSize), coachId));
     }
 
 }

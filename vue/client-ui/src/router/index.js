@@ -105,6 +105,11 @@ const routes = [
         component: () => import('../views/CoachCourse'),
       },
       {
+        path: '/coach/mystudent',
+        name: 'CoachMember',
+        component: () => import('../views/CoachMember'),
+      },
+      {
         path:'/coach/allgoods',
         name:'AllGoods',
         component: () => import('../views/AllGoods'),

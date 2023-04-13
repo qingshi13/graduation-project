@@ -20,7 +20,7 @@
         <template slot="title"><i class="el-icon-tickets"></i>课程管理</template>
         <el-menu-item-group>
           <el-menu-item index="/coach/mycourse">我的课程</el-menu-item>
-          <el-menu-item index="/coach/2-2">我的学员</el-menu-item>
+          <el-menu-item index="/coach/mystudent">我的学员</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">

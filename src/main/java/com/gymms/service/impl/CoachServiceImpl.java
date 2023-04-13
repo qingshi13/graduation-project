@@ -3,9 +3,11 @@ package com.gymms.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gymms.entity.Coach;
 import com.gymms.entity.Member;
+import com.gymms.entity.dto.CoachMemberDto;
 import com.gymms.entity.dto.LimitDto;
 import com.gymms.entity.dto.LoginFormDto;
 import com.gymms.entity.dto.UserDto;
@@ -38,6 +40,11 @@ public class CoachServiceImpl extends ServiceImpl<CoachMapper, Coach> implements
         limitDto.setSubscribedNum(coachMapper.SubNum(coachId));
         limitDto.setRecruit(coachMapper.Recruit(coachId));
         return limitDto;
+    }
+
+    @Override
+    public Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page, Integer coachId) {
+        return coachMapper.getStudent(page,coachId);
     }
 
 }

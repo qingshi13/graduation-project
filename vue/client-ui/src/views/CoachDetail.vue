@@ -3,7 +3,9 @@
     <el-card>
       <div style="display: flex;">
         <div style="width: 300px">
-          <el-image :src="coach.picture" :preview-src-list="[coach.picture]" style="width: 100%"></el-image>
+          <el-image :src="coach.picture"
+                    v-if="coach.picture"
+                    :preview-src-list="[coach.picture]" style="width: 100%"></el-image>
         </div>
         <div style="flex: 1; padding-left: 50px">
           <div class="item1"><h1 style="font-size: 24px">{{ coach.name }}</h1></div>

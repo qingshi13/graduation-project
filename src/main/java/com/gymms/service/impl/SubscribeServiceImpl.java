@@ -3,11 +3,9 @@ package com.gymms.service.impl;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gymms.entity.Course;
-import com.gymms.entity.Member;
-import com.gymms.entity.Orders;
-import com.gymms.entity.Subscribe;
+import com.gymms.entity.*;
 import com.gymms.mapper.SubscribeMapper;
+import com.gymms.service.CoachService;
 import com.gymms.service.CourseService;
 import com.gymms.service.MemberService;
 import com.gymms.service.SubscribeService;
@@ -22,6 +20,8 @@ public class SubscribeServiceImpl  extends ServiceImpl<SubscribeMapper, Subscrib
     private MemberService memberService;
     @Resource
     private CourseService courseService;
+    @Resource
+    private CoachService coachService;
 
     @Override
     public Result subscribe(Subscribe subscribe) {
@@ -45,6 +45,12 @@ public class SubscribeServiceImpl  extends ServiceImpl<SubscribeMapper, Subscrib
         subscribe.setTime(DateUtil.now());
         subscribe.setCourseNumber(course.getNum());
         this.saveOrUpdate(subscribe);
+        Coach coach = coachService.getById(course.getCoachId());
+        if (coach.getRecruitNumber() == null){
+            coach.setRecruitNumber(1);
+        }
+        coach.setRecruitNumber(coach.getRecruitNumber()+1);
+        coachService.updateById(coach);
         return Result.success("订阅成功");
     }
 }

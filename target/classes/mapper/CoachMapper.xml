@@ -16,5 +16,12 @@
         SELECT SUM(recruit) FROM course where coach_id = #{coachId}
 
     </select>
+    <select id="getStudent" resultType="com.gymms.entity.dto.CoachMemberDto">
+        SELECT member.name as memberName,course.name as courseName,member.phone_number as phone,subscribe.time as time
+        FROM subscribe,member,course
+        WHERE subscribe.course_id = course.course_id and subscribe.member_id = member.member_id
+        and course.coach_id = #{coachId}
+
+    </select>
 
 </mapper>

@@ -7,6 +7,7 @@
         <el-descriptions-item label="手机号">{{ coach.phoneNumber }}</el-descriptions-item>
         <el-descriptions-item label="性别">{{ coach.sex }}</el-descriptions-item>
         <el-descriptions-item label="职位">{{ coach.position }}</el-descriptions-item>
+        <el-descriptions-item label="累计学员">{{ coach.recruitNumber }}</el-descriptions-item>
         <el-descriptions-item label="余额">{{ coach.remainingSum }}</el-descriptions-item>
         <el-descriptions-item label="积分">{{ coach.accumulatePoints }}</el-descriptions-item>
         <el-descriptions-item label="我的简介">{{ coach.description }}</el-descriptions-item>
@@ -89,6 +90,7 @@
           this.coach.remainingSum = res.data.data.remainingSum
           this.coach.accumulatePoints = res.data.data.accumulatePoints
           this.coach.description = res.data.data.description
+          this.coach.recruitNumber = res.data.data.recruitNumber
         })
       },
       save() {

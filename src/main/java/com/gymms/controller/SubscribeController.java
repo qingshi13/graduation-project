@@ -27,7 +27,7 @@ public class SubscribeController {
     @PostMapping()
     public Result subscribe(@RequestBody Subscribe subscribe) {
 
-        return Result.success(subscribeService.subscribe(subscribe),"订阅成功");
+        return subscribeService.subscribe(subscribe);
     }
 
     @GetMapping("/page")
