@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.SubscribeMapper">
+
+    <select id="page" resultType="com.gymms.entity.Subscribe">
+        select s.*,course.name as courseName,course.course_nature as courseNature,coach.name as coachName,
+        coach.phone_number as coachPhone
+        from subscribe s
+        left join course on course.course_id = s.course_id
+        left join coach on coach.coach_id = course.coach_id
+        <where>
+            <if test="name != null and name != ''">
+                and course.name like concat('%',#{name},'%')
+            </if>
+            <if test="courseNature != null and courseNature != ''">
+                and course.course_nature = #{courseNature}
+            </if>
+            and s.member_id = #{id}
+        </where>
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.CoachMapper">
+
+    <select id="SubNum" resultType="java.lang.Integer">
+        SELECT count(*) FROM subscribe,course
+        <where>
+            and subscribe.course_id = course.course_id
+            and course.coach_id = #{coachId}
+        </where>
+    </select>
+    <select id="Recruit" resultType="java.lang.Integer">
+        SELECT SUM(recruit) FROM course where coach_id = #{coachId}
+
+    </select>
+
+</mapper>

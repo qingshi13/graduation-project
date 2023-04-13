@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.CourseMapper">
+
+    <select id="page" resultType="com.gymms.entity.Course">
+        select c.* from course c
+        <where>
+            <if test="name != null and name != ''">
+                and c.name like concat('%',#{name},'%')
+            </if>
+            and c.coach_id = #{id}
+        </where>
+    </select>
+
+    <select id="findOneByCourseId" resultType="com.gymms.entity.Course">
+        select c.*,coach.name as coachName from course c left join coach on coach.coach_id = c.coach_id
+        <where>
+            and c.course_id = #{id}
+        </where>
+    </select>
+
+    <select id="findByCourseNature" resultType="com.gymms.entity.Course">
+        select course.*,coach.`name` as coachName,coach.picture as coachPicture FROM course
+        LEFT JOIN coach on coach.coach_id = course.coach_id
+        <where>
+            and course.course_nature = (select course_nature FROM course WHERE course_id = #{id})
+            and course_id not in(#{id})
+        </where>
+    </select>
+    <select id="getSum" resultType="java.lang.Integer">
+        SELECT SUM(rate) FROM subscribe WHERE course_id = #{courseId}
+    </select>
+    <select id="getNum" resultType="java.lang.Integer">
+        SELECT count(rate) FROM subscribe WHERE course_id = #{courseId} and rate != ''
+    </select>
+
+
+</mapper>

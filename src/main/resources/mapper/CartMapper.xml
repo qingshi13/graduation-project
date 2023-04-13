@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.CartMapper">
+
+    <select id="page" resultType="com.gymms.entity.Cart">
+        select c.*, g.name as goodName, g.picture as goodPicture, g.price, m.name, m.nick_name from cart c
+        left join good g on c.good_id = g.good_id
+        left join member m on c.user_id = m.member_id
+        <where>
+            <if test="name != null and name != ''">
+                and g.name like concat('%',#{name},'%')
+            </if>
+            and c.user_id = #{id}
+        </where>
+    </select>
+
+
+
+</mapper>

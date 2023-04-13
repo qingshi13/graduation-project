@@ -1,0 +1,30 @@
+package com.gymms.config;
+
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+/**
+ * @author hxc
+ * @dateTime: 2021-12-2
+ * @description: 跨域配置
+ * */
+@Configuration
+public class CorsConfig {
+    @Bean
+    public CorsFilter corsFilter(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration( "/**",configuration);
+
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+}
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.OrderMapper">
+
+    <select id="page" resultType="com.gymms.entity.Orders">
+        select o.*,m.name as username,m.nick_name as nickname from orders o left join member m on o.user_id = m.member_id
+        <where>
+            <if test="name != null and name != ''">
+                and o.name like concat('%',#{name},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and o.state = #{state}
+            </if>
+            and o.user_id = #{id}
+        </where>
+    </select>
+
+
+
+</mapper>
