@@ -21,6 +21,7 @@
         <el-menu-item-group>
           <el-menu-item index="/coach/mycourse">我的课程</el-menu-item>
           <el-menu-item index="/coach/mystudent">我的学员</el-menu-item>
+          <el-menu-item index="/coach/myappointment">我的预约</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">

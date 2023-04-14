@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
+<mapper namespace="com.gymms.mapper.AppointmentMapper">
+
+    <select id="getAppointment" resultType="com.gymms.entity.Appointment">
+        SELECT member.name as memberName,course.name as courseName,appointment.date as time,appointment.point as point
+        FROM appointment,member,course
+        WHERE appointment.course_id = course.course_id and appointment.member_id = member.member_id
+        and course.coach_id = #{coachId}
+
+    </select>
+
+</mapper>

@@ -26,7 +26,7 @@
 
       <el-table-column label="预约" width="180"align="center">
         <template slot-scope="scope">
-          <el-button type="primary" @click="dialogFormVisible1=true"><i class="el-icon-date"></i> 预 约</el-button>
+          <el-button type="primary" @click="course(scope.row.courseId)"><i class="el-icon-date"></i> 预 约</el-button>
         </template>
       </el-table-column>
 
@@ -49,11 +49,11 @@
                size="small">
 
         <el-form-item label="预约时间">
-          <el-date-picker v-model="appointment.Time" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>
+          <el-date-picker v-model="appointment.date" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="备注">
-          <el-input v-model="appointment.remarks" autocomplete="off"></el-input>
+          <el-input v-model="appointment.message" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
 
@@ -97,12 +97,17 @@
         multipleSelection: [],
         user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
         courseNature: "",
+        cId: "",
       }
     },
     created() {
       this.load()
     },
     methods: {
+      course(courseId){
+        this.dialogFormVisible1 = true
+        this.cId = courseId
+      },
       rating(id,courseId,rate) {
         this.$axios.post("http://localhost:8081/subscribe/rate/",{subscribeId:id,courseId:courseId,rate:rate}).then(res =>{
           if (res.data.code == 200) {
@@ -114,7 +119,18 @@
         console.log(rate)
       },
       makingAppointment(appointment) {
-
+        appointment.memberId=this.user.userId
+        appointment.courseId=this.cId
+        this.$axios.post("http://localhost:8081/appointment/",appointment).then(res =>{
+          if (res.data.code == 200) {
+            console.log(res.data)
+            this.$message.success(res.data.message)
+            // this.load()
+          }else {
+            this.$message.error(res.data.message)
+            console.log(res.data)
+          }
+        })
         console.log(appointment)
       },
       load() {
@@ -129,17 +145,7 @@
         }).then(res => {
           this.tableData = res.data.data.records
           this.total = res.data.data.total
-        })
-      },
-      del(id){
-        console.log(id)
-        this.$axios.delete("http://localhost:8081/order/" + id).then(res => {
-          if (res.data.code == 200) {
-            this.$message.success("取消成功")
-            this.load()
-          }else {
-            this.$message.error("取消失败")
-          }
+          console.log(this.tableData)
         })
       },
       handleSizeChange(pageSize) {

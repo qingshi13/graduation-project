@@ -108,12 +108,12 @@
       },
       subscribe() {
         this.$axios.post("http://localhost:8081/subscribe/" , {courseId:this.id,memberId:this.user.userId}).then(res =>{
-          if (res.data.data.code == 200) {
+          if (res.data.code == 200) {
             console.log(res.data)
-            this.$message.success(res.data.data.data)
+            this.$message.success(res.data.data)
             this.load()
           }else {
-            this.$message.error(res.data.data.message)
+            this.$message.error(res.data.message)
             console.log(res.data)
           }
         })

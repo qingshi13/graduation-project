@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="information">
-      <el-descriptions title="个人信息" column="1">
+      <el-descriptions title="个人信息" :column=1>
         <br>
         <el-descriptions-item label="用户名">{{ member.name }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ member.phoneNumber }}</el-descriptions-item>
@@ -62,8 +62,7 @@
       return {
         form:{},
         user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-        member:{
-        }
+        member:{}
       }
     },
     created() {

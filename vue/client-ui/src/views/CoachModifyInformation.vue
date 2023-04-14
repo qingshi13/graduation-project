@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="information">
-      <el-descriptions title="个人信息" column="1">
+      <el-descriptions title="个人信息" :column=1>
         <br>
         <el-descriptions-item label="用户名">{{ coach.name }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ coach.phoneNumber }}</el-descriptions-item>
