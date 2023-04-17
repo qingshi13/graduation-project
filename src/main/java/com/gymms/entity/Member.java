@@ -21,7 +21,6 @@ public class Member {
     private String phoneNumber;
     private Double remainingSum;
     private Integer accumulatePoints;
-    private Integer courseId;
     private String address;
     private String expirationTime;
     private String state;

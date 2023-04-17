@@ -2,6 +2,7 @@ package com.gymms.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -50,8 +51,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 //    }
 
     @Override
-    public Result sendCode(String phone, HttpSession session) {
+    public Result sendCode(String phone) {
         // 1.校验手机号
+        System.out.println(phone);
         if (RegexUtils.isPhoneInvalid(phone)) {
             // 2.如果不符合，返回错误信息
             return Result.failed("手机号格式错误！");
@@ -64,11 +66,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         // 5.发送验证码
         System.out.println(code);
         // 返回ok
-        return Result.success();
+        return Result.success(code,"验证码："+code);
     }
 
     @Override
-    public Result login(LoginFormDto loginForm, HttpSession session) {
+    public Result login(LoginFormDto loginForm) {
         // 1.校验手机号
         String phone = loginForm.getPhone();
         if (RegexUtils.isPhoneInvalid(phone)) {
@@ -91,7 +93,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
         // 5.判断用户是否存在
         if (member == null && coach == null) {
-            return Result.failed("用户不存在");
+            return Result.failed("用户不存在，请注册");
         }
 
         System.out.println(coach);
@@ -149,6 +151,65 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             // 8.返回token
             return Result.success(userDto);
         }
+    }
+
+    @Override
+    public Result register(LoginFormDto loginForm) {
+
+        if(loginForm.getPhone().isEmpty()||loginForm.getCode().isEmpty()||loginForm.getNickName().isEmpty()){
+
+            return Result.failed("填写不能为空");
+        }
+        String phone = loginForm.getPhone();
+        if (RegexUtils.isPhoneInvalid(phone)) {
+            // 2.如果不符合，返回错误信息
+            return Result.failed("手机号格式错误！");
+        }
+        // 3.从redis获取验证码并校验
+        String cacheCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
+        String code = loginForm.getCode();
+        if (cacheCode == null || !cacheCode.equals(code)) {
+            // 不一致，报错
+            return Result.failed("验证码错误");
+        }
+
+        // 4.一致，根据手机号查询用户 select * from tb_user where phone = ?
+        if (query().eq("phone_number", phone).one()!=null){
+            return Result.failed("您的账户已存在，请直接登录");
+        }
+        if (query().eq("nick_name", phone).one()!=null){
+            return Result.failed("该昵称已存在，请重新输入");
+        }
+        String token = UUID.randomUUID().toString(true);
+        Member member = new Member();
+        member.setMemberId(0);
+        member.setCreateTime(DateUtil.now());
+        member.setPassword("123456");
+        member.setNickName(loginForm.getNickName());
+        member.setPhoneNumber(loginForm.getPhone());
+        this.saveOrUpdate(member);
+        UserDto userDto = new UserDto();
+        userDto.setRole("member");
+        userDto.setUserId(query().eq("phone_number", phone).one().getMemberId());
+        userDto.setNickName(member.getNickName());
+        if (member.getPicture() == null)
+            userDto.setPicture("null");
+        else
+            userDto.setPicture(member.getPicture());
+//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
+
+        Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
+                CopyOptions.create()
+                        .setIgnoreNullValue(true)
+                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+        // 7.3.存储
+        String tokenKey = LOGIN_USER_KEY + token;
+        stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
+        // 7.4.设置token有效期
+        stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+
+        // 8.返回token
+        return Result.success(userDto);
     }
 
 

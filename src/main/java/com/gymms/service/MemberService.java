@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface MemberService extends IService<Member> {
 //    List<Member> getAllMember();
-    Result sendCode(String phone, HttpSession session);
-    Result login(LoginFormDto loginForm, HttpSession session);
+    Result sendCode(String phone);
+    Result login(LoginFormDto loginForm);
 
+    Result register(LoginFormDto loginForm);
 }

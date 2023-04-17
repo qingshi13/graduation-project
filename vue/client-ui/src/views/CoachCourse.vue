@@ -35,7 +35,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog title="课程设置" :visible.sync="dialogFormVisible" width="42%" :close-on-click-modal="false">
+    <el-dialog title="课程设置" :visible.sync="dialogFormVisible" width="42%" @close="handleClose">
       <el-form label-width="110px" :model="addCourse" ref="addCourse" status-icon :rules="rules"
                    size="small" style="display: inline-block">
 
@@ -58,7 +58,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程人数" prop="recruit">
-          <el-input v-model.number="addCourse.recruit" autocomplete="off"></el-input>
+          <el-input v-model.number="addCourse.recruit" type="number" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="课程规划" >
           <el-select v-model="addCourse.num" placeholder="">
@@ -71,8 +71,7 @@
         <el-form-item label="课程收费"
                       prop="courseFees"
         >
-          <el-input v-model="addCourse.courseFees" oninput="value = value.toString().match(/^\d+(?:\.\d{0,2})?/)"
-                    autocomplete="off"></el-input>
+          <el-input v-model="addCourse.courseFees" @input="limitInput($event,'courseFees')" autocomplete="off"></el-input>
         </el-form-item>
 
 
@@ -80,7 +79,6 @@
 <!--          <el-date-picker v-model="addCourse.openTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>-->
 <!--        </el-form-item>-->
       </el-form>
-
 
       <div class="img">
         课程图片
@@ -102,21 +100,21 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="商品信息" :visible.sync="dialogFormVisible1" width="50%" :close-on-click-modal="false">
-      <el-table :data="goodsList" border stripe>
-        <el-table-column prop="name" label="商品名称"></el-table-column>
-        <el-table-column prop="price" label="价格" width="80"></el-table-column>
-        <el-table-column prop="description" label="商品描述" width="150"></el-table-column>
-        <el-table-column label="图片" width="180">
-          <template slot-scope="scope">
-            <el-image style="width: 150px; height: 150px" :src="scope.row.picture" :preview-src-list="[scope.row.picture]"></el-image>
-          </template>
-        </el-table-column>
-        <el-table-column prop="time" label="下单时间" width="100"></el-table-column>
-        <el-table-column prop="num" label="购买数量" width="80"></el-table-column>
+<!--    <el-dialog title="商品信息" :visible.sync="dialogFormVisible1" width="50%" @close="handleClose">-->
+<!--      <el-table :data="goodsList" border stripe>-->
+<!--        <el-table-column prop="name" label="商品名称"></el-table-column>-->
+<!--        <el-table-column prop="price" label="价格" width="80"></el-table-column>-->
+<!--        <el-table-column prop="description" label="商品描述" width="150"></el-table-column>-->
+<!--        <el-table-column label="图片" width="180">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-image style="width: 150px; height: 150px" :src="scope.row.picture" :preview-src-list="[scope.row.picture]"></el-image>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column prop="time" label="下单时间" width="100"></el-table-column>-->
+<!--        <el-table-column prop="num" label="购买数量" width="80"></el-table-column>-->
 
-      </el-table>
-    </el-dialog>
+<!--      </el-table>-->
+<!--    </el-dialog>-->
 
     <div style="padding: 10px 0">
       <el-pagination
@@ -197,6 +195,19 @@
     },
 
     methods: {
+      limitInput(value, name) {
+        this.addCourse[name] =
+          ("" + value) // 第一步：转成字符串
+            .replace(/[^\d^\.]+/g, "") // 第二步：把不是数字，不是小数点的过滤掉
+            .replace(/^0+(\d)/, "$1") // 第三步：第一位0开头，0后面为数字，则过滤掉，取后面的数字
+            .replace(/^\./, "0.") // 第四步：如果输入的第一位为小数点，则替换成 0. 实现自动补全
+            .match(/^\d*(\.?\d{0,2})/g)[0] || ""; // 第五步：最终匹配得到结果 以数字开头，只有一个小数点，而且小数点后面只能有0到2位小数
+      },
+      handleClose() {
+        for (let key in this.addCourse) {
+          this.addCourse[key] = '';
+        }
+      },
       beforeAvatarUpload(file) {
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {

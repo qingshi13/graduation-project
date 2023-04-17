@@ -32,6 +32,11 @@ public class SubscribeServiceImpl  extends ServiceImpl<SubscribeMapper, Subscrib
         }
         QueryWrapper<Member> memberQueryWrapper = new QueryWrapper<Member>().eq("member_id", subscribe.getMemberId());
         Member member = memberService.getOne(memberQueryWrapper);
+        if (member.getState().equals("未开通")){
+            return Result.failed("您未开通会员，请开通后再订阅该课程");
+        } else if (member.getState().equals("已过期")){
+            return Result.failed("您的会员已过期，请续费后再订阅该课程");
+        }
         QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<Course>().eq("course_id", subscribe.getCourseId());
         Course course = courseService.getOne(courseQueryWrapper);
         if (member.getRemainingSum() < course.getCourseFees()){

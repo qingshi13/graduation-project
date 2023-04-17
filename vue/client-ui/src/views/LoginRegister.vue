@@ -1,5 +1,5 @@
 <template>
-  <div class="login-register">
+  <div class="loginregister">
     <div class="contain">
       <div class="big-box" :class="{active:isLogin}">
         <div class="big-contain" v-if="isLogin">
@@ -7,25 +7,31 @@
           <el-form class="bform" :model="form" ref="form" @submit.native.prevent="login">
               <el-input class="input" v-model="form.userphone" placeholder="请输入账号/手机号"></el-input>
               <el-input class="input" placeholder="请输入密码" v-model="form.userpwd" show-password></el-input>
+            <el-button class="code" type="primary" @click="code">获取验证码</el-button>
             <el-button class="button" type="primary" native-type="submit" round>登录</el-button>
           </el-form>
         </div>
         <div class="big-contain" v-else>
           <div class="btitle" style="color: rgb(56,183,145);">创建账户</div>
-          <div class="bform">
 
-            <el-input class="input" v-model="form.useraccount" placeholder="请输入用户名"></el-input>
-            <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
+            <el-form class="bform" :model="form" ref="form" @submit.native.prevent="register">
+              <el-input class="input" v-model="form.useraccount" placeholder="请输入用户名"></el-input>
 
-            <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
+              <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
 
-            <el-input class="input" placeholder="请输入密码" v-model="form.userpwd" show-password></el-input>
-            <el-input class="input" placeholder="请确认密码" v-model="form.userpwd" show-password></el-input>
-          </div>
-          <el-button class="button" style="background-color: rgb(56,183,145);"
-                     type="primary" round @click="register">注册</el-button>
+              <el-input class="input" placeholder="请输入密码" v-model="form.userpwd" show-password></el-input>
+
+              <el-button class="code" style="top:244px;" type="primary" @click="code">获取验证码</el-button>
+
+              <el-button class="button" style="background-color: rgb(56,183,145);position:relative;top:30px"
+                         type="primary" round native-type="submit">注册</el-button>
+            </el-form>
+<!--            <el-input class="input" placeholder="请确认密码" v-model="form.userpwd" show-password></el-input>-->
+
+
         </div>
       </div>
+
       <div class="small-box" :class="{active:isLogin}">
         <div class="small-contain" v-if="isLogin">
           <div class="stitle">你好，朋友!</div>
@@ -48,12 +54,13 @@
   import { Message } from "element-ui";
 
   export default{
-    name:'login-register',
+    name:'LoginRegister',
     data(){
       return {
         isLogin:true,
         existed: false,
         form:{
+          useraccount:'',
           userphone:'',
           userpwd:''
         },
@@ -67,59 +74,52 @@
         this.form.userphone = ''
         this.form.userpwd = ''
       },
+
+      code() {
+        const param = new URLSearchParams();
+        param.append("phone", this.form.userphone);
+        this.$axios.post("http://localhost:8081/code",param).then(res =>{
+          if (res.data.code == 200){
+            this.$message.success(res.data.message)
+          }else {
+            this.$message.error(res.data.message)
+          }
+        })
+      },
       login() {
-        this.$store.dispatch("Login", this.form)
-              .then(response => {
-                let code = response.data.code;
-                if (code == 200) {
-                  localStorage.setItem('user', JSON.stringify(response.data.data));
-
-                  if (response.data.data.role == "member") {
-                    this.$router.push({
-                      path: "/member/home",
-                    });
-                  }
-                  else if (response.data.data.role == "coach") {
-                    this.$router.push({
-                      path: "/coach/home",
-                    });
-                  }
-
-                } else {
-                  Message.error(response.data.message)
-                  return false;
-                }
+        this.$axios.post("http://localhost:8081/login/",{phone:this.form.userphone,code:this.form.userpwd}).then(res =>{
+          if(res.data.code == 200){
+            console.log(res.data)
+            localStorage.setItem('user', JSON.stringify(res.data.data));
+            if (res.data.data.role == "member") {
+              this.$router.push({
+                path: "/member/home",
               });
+            }
+            else if (res.data.data.role == "coach") {
+              this.$router.push({
+                path: "/coach/home",
+              });
+            }
+          }
+          else {
+            this.$message.error(res.data.message)
+          }
+        })
       },
       register(){
-        const self = this;
-        if(self.form.useraccount != "" && self.form.userphone != "" && self.form.userpwd != ""){
-          self.$axios({
-            method:'post',
-            url: 'http://127.0.0.1:10520/api/user/add',
-            data: {
-              username: self.form.useraccount,
-              phone: self.form.userphone,
-              password: self.form.userpwd
-            }
-          })
-            .then( res => {
-              switch(res.data){
-                case 0:
-                  alert("注册成功！");
-                  this.login();
-                  break;
-                case -1:
-                  this.existed = true;
-                  break;
-              }
-            })
-            .catch( err => {
-              console.log(err);
-            })
-        } else {
-          alert("填写不能为空！");
-        }
+        this.$axios.post("http://localhost:8081/register/",{nickName:this.form.useraccount,phone:this.form.userphone,code:this.form.userpwd}).then(res =>{
+          if(res.data.code == 200){
+            console.log(res.data)
+            localStorage.setItem('user', JSON.stringify(res.data.data));
+            this.$router.push({
+              path: "/member/home",
+            });
+          }
+          else {
+            this.$message.error(res.data.message)
+          }
+        })
       }
     }
   }
@@ -129,7 +129,7 @@
   .input{
     width: 50%;
   }
-  .login-register{
+  .loginregister{
     width: 1500px;
     height: 750px;
     box-sizing: border-box;
@@ -192,6 +192,15 @@
     font-size: 1em;
     border: 1px solid #fff;
 
+  }
+  .code{
+    width: 120px;
+    height: 40px;
+    background-color: rgb(57,167,176);
+    font-size: 1em;
+    border: 1px solid #fff;
+    position: absolute;
+    left: 480px;
   }
   .small-box{
     width: 30%;
