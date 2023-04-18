@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gymms.entity.Appointment;
 import com.gymms.entity.Course;
+import com.gymms.entity.Subscribe;
 import com.gymms.service.AppointmentService;
 import com.gymms.service.CourseService;
+import com.gymms.service.SubscribeService;
 import com.gymms.util.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     @Resource
     private CourseService courseService;
+    @Resource
+    private SubscribeService subscribeService;
 
     @PostMapping
     public Result save(@RequestBody Appointment appointment) {
@@ -75,5 +79,21 @@ public class AppointmentController {
             @RequestParam Integer pageSize){
 
         return Result.success(appointmentService.getAppointment(new Page<>(pageNum, pageSize), coachId));
+    }
+
+    @PostMapping("/complete")
+    public Result complete(@RequestBody Appointment appointment){
+        appointmentService.removeById(appointment.getAppointmentId());
+        QueryWrapper<Subscribe> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id",appointment.getCourseId());
+        queryWrapper.eq("member_id",appointment.getMemberId());
+        Subscribe subscribe = subscribeService.getOne(queryWrapper);
+        if (subscribe.getCourseNumber() == 1){
+            return Result.success(subscribeService.removeById(subscribe.getSubscribeId()),"该课程学员已学完");
+        }
+        subscribe.setCourseNumber(subscribe.getCourseNumber()-1);
+        subscribeService.updateById(subscribe);
+        return Result.success("","该学员还有"+subscribe.getCourseNumber()+"节课");
+
     }
 }

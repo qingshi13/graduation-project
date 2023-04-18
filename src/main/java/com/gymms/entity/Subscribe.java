@@ -28,4 +28,10 @@ public class Subscribe {
     private String courseName;
     @TableField(exist = false)
     private String courseNature;
+    @TableField(exist = false)
+    private String isapp;
+    @TableField(exist = false)
+    private String date;
+    @TableField(exist = false)
+    private String point;
 }

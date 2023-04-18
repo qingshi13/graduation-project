@@ -6,7 +6,8 @@
 <mapper namespace="com.gymms.mapper.AppointmentMapper">
 
     <select id="getAppointment" resultType="com.gymms.entity.Appointment">
-        SELECT member.name as memberName,course.name as courseName,appointment.date as time,appointment.point as point
+        SELECT appointment_id as appointmentId,member.name as memberName,member.nick_name as nickName,course.name as courseName,
+        appointment.course_id as courseId,appointment.member_id as memberId,appointment.date as time,appointment.point as point
         FROM appointment,member,course
         WHERE appointment.course_id = course.course_id and appointment.member_id = member.member_id
         and course.coach_id = #{coachId}

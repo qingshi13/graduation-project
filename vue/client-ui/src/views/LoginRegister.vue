@@ -58,7 +58,6 @@
     data(){
       return {
         isLogin:true,
-        existed: false,
         form:{
           useraccount:'',
           userphone:'',

@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SubscribeMapper extends BaseMapper<Subscribe> {
-    Page<Subscribe> page(Page<Orders> page, @Param("id") Integer id, @Param("name") String name, @Param("courseNature") String courseNature);
+    Page<Subscribe> page(Page<Subscribe> page, @Param("id") Integer id, @Param("name") String name, @Param("courseNature") String courseNature);
 }

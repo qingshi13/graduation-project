@@ -147,7 +147,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
             // 7.4.设置token有效期
             stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
-
             // 8.返回token
             return Result.success(userDto);
         }
@@ -211,6 +210,4 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         // 8.返回token
         return Result.success(userDto);
     }
-
-
 }

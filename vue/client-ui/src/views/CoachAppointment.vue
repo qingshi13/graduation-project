@@ -2,15 +2,26 @@
   <div>
 
     <el-table :data="tableData" border stripe size="medium">
-      <el-table-column prop="courseName" label="课程名"></el-table-column>
-      <el-table-column prop="memberName" label="会员名" width="200"></el-table-column>
+      <el-table-column prop="courseName" label="课程名字"></el-table-column>
+      <el-table-column prop="nickName" label="会员昵称" width="200"></el-table-column>
+      <el-table-column prop="memberName" label="会员名字" width="200"></el-table-column>
       <el-table-column prop="time" label="日期" ></el-table-column>
       <el-table-column prop="point" label="时间" ></el-table-column>
 
       <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="success" ><i class="el-icon-wallet"></i> 编 辑</el-button>
-
+          <el-popconfirm
+            class="ml-5"
+            confirm-button-text='确定'
+            cancel-button-text='我再想想'
+            icon="el-icon-info"
+            icon-color="red"
+            title="您确定改预约已完成吗?"
+            @confirm="complete(scope.row.appointmentId,scope.row.memberId,scope.row.courseId)"
+          >
+            <el-button type="success" slot="reference">
+              <i class="el-icon-check"></i> 完 成</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -56,7 +67,20 @@
     },
 
     methods: {
-
+      complete(appointmentId,memberId,courseId) {
+        this.$axios.post("http://localhost:8081/appointment/complete",{
+          appointmentId:appointmentId,
+          memberId:memberId,
+          courseId:courseId,
+        }).then(res => {
+          if (res.data.code == 200){
+            this.$message.success(res.data.message)
+            this.load()
+          }else {
+            this.$message.error(res.data.message)
+          }
+        })
+      },
       load() {
         this.$axios.get("http://localhost:8081/appointment/page", {
           params: {

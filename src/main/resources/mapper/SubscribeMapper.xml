@@ -7,10 +7,12 @@
 
     <select id="page" resultType="com.gymms.entity.Subscribe">
         select s.*,course.name as courseName,course.course_nature as courseNature,coach.name as coachName,
-        coach.phone_number as coachPhone
+        coach.phone_number as coachPhone, appointment_id IS NOT NULL as isapp,appointment.date as "date",
+        appointment.point as point
         from subscribe s
         left join course on course.course_id = s.course_id
         left join coach on coach.coach_id = course.coach_id
+        LEFT JOIN appointment ON appointment.member_id = s.member_id AND appointment.course_id = s.course_id
         <where>
             <if test="name != null and name != ''">
                 and course.name like concat('%',#{name},'%')

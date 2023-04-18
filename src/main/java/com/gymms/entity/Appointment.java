@@ -22,5 +22,7 @@ public class Appointment {
     @TableField(exist = false)
     private String memberName;
     @TableField(exist = false)
+    private String nickName;
+    @TableField(exist = false)
     private String courseName;
 }

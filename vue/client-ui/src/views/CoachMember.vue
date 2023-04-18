@@ -2,17 +2,12 @@
   <div>
 
     <el-table :data="tableData" border stripe size="medium">
-      <el-table-column prop="courseName" label="课程名"></el-table-column>
-      <el-table-column prop="memberName" label="会员名" width="200"></el-table-column>
+      <el-table-column prop="courseName" label="课程名字"></el-table-column>
+      <el-table-column prop="nickName" label="会员昵称" width="200"></el-table-column>
+      <el-table-column prop="memberName" label="会员名字" width="200"></el-table-column>
       <el-table-column prop="phone" label="会员电话"></el-table-column>
       <el-table-column prop="time" label="订阅时间" ></el-table-column>
 
-      <el-table-column label="操作" align="center" width="160">
-        <template slot-scope="scope">
-          <el-button type="success" ><i class="el-icon-wallet"></i> 编 辑</el-button>
-
-        </template>
-      </el-table-column>
     </el-table>
 
     <div style="padding: 10px 0">

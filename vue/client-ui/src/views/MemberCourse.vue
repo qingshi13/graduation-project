@@ -26,7 +26,9 @@
 
       <el-table-column label="预约" width="180"align="center">
         <template slot-scope="scope">
-          <el-button type="primary" @click="course(scope.row.courseId)"><i class="el-icon-date"></i> 预 约</el-button>
+          <span v-if="scope.row.isapp=='1'">{{scope.row.date}}</span>
+          <span v-if="scope.row.isapp=='1'">{{scope.row.point}}</span>
+          <el-button v-else-if="scope.row.isapp=='0'" type="primary" @click="course(scope.row.courseId)"><i class="el-icon-date"></i> 预 约</el-button>
         </template>
       </el-table-column>
 
@@ -44,7 +46,7 @@
 
     </el-table>
 
-    <el-dialog title="预约" :visible.sync="dialogFormVisible1" width="30%" :close-on-click-modal="false">
+    <el-dialog title="预约" :visible.sync="dialogFormVisible" width="30%" :close-on-click-modal="false">
       <el-form label-width="80px" :model="appointment" ref="appointment" status-icon
                size="small">
 
@@ -60,7 +62,7 @@
 
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="makingAppointment(appointment)">确 定</el-button>
       </div>
     </el-dialog>
@@ -93,7 +95,6 @@
         name: "",
         form: {},
         dialogFormVisible: false,
-        dialogFormVisible1: false,
         multipleSelection: [],
         user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
         courseNature: "",
@@ -105,7 +106,7 @@
     },
     methods: {
       course(courseId){
-        this.dialogFormVisible1 = true
+        this.dialogFormVisible = true
         this.cId = courseId
       },
       rating(id,courseId,rate) {
@@ -125,7 +126,8 @@
           if (res.data.code == 200) {
             console.log(res.data)
             this.$message.success(res.data.message)
-            // this.load()
+            this.load()
+            this.dialogFormVisible = false
           }else {
             this.$message.error(res.data.message)
             console.log(res.data)
@@ -147,6 +149,7 @@
           this.total = res.data.data.total
           console.log(this.tableData)
         })
+
       },
       handleSizeChange(pageSize) {
         console.log(pageSize)
