@@ -1,10 +1,10 @@
 package com.gymms.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.gymms.entity.Admin;
 
 import java.util.List;
 
-public interface AdminService {
-    List<Admin> getAllAdmin();
-//    Admin findByAdminId(Integer id);
+public interface AdminService extends IService<Admin> {
+
 }

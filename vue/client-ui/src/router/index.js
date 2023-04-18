@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Member from '../views/Member'
 import Coach from '../views/Coach'
-
-import Aside from "../components/MemberAside";
+import Admin from '../views/Admin'
+import Aside from "../components/MemberAside"
+import CoachAside from "../components/CoachAside"
+import AdminAside from "../components/AdminAside"
 import Header from "../components/Header"
 Vue.use(Router)
 
@@ -82,21 +84,21 @@ const routes = [
   },
   {
     path:'/Coach',
-    component: Coach,Aside,Header,
+    component: Coach,CoachAside,Header,
     children:[
       {
         path:'/coach/home',
-        name:'home',
+        name:'coachhome',
         component: () => import('../views/MemberHome')
       },
       {
         path:'/coach/information',
-        name:'information',
+        name:'coachinformation',
         component: () => import('../views/CoachModifyInformation')
       },
       {
         path: '/coach/rechargemanagement',
-        name: 'RechargeManagement',
+        name: 'coachRechargeManagement',
         component: () => import('../views/MemberRechargeManagement'),
       },
       {
@@ -116,27 +118,89 @@ const routes = [
       },
       {
         path:'/coach/allgoods',
-        name:'AllGoods',
+        name:'coachAllGoods',
         component: () => import('../views/AllGoods'),
       },
       {
         path:'/coach/gooddetail',
-        name:'Detail',
+        name:'coachDetail',
         component: () => import('../views/Detail')
       },
       {
         path:'/coach/cart',
-        name:'Cart',
+        name:'coachCart',
         component: () => import('../views/Cart')
       },
       {
         path:'/coach/myorder',
-        name:'MyOrder',
+        name:'coachMyOrder',
         component: () => import('../views/MyOrder')
       },
     ]
   },
+  {
+    path:'/admin',
+    component: Admin,AdminAside,Header,
+    children:[
+      {
+        path:'/admin/home',
+        name:'adminhome',
+        component: () => import('../views/MemberHome')
+      },
+      {
+        path:'/admin/information',
+        name:'admininformation',
+        component: () => import('../views/MemberModifyInformation')
+      },
+      {
+        path: '/admin/rechargemanagement',
+        name: 'adminRechargeManagement',
+        component: () => import('../views/MemberRechargeManagement'),
+        // alwaysShow:true
+      },
+      {
+        path:'/admin/allcoachs',
+        name:'adminAllCoachs',
+        component: () => import('../views/AllCoachs'),
+      },
 
+      {
+        path:'/admin/allcourses',
+        name:'adminAllCourses',
+        component: () => import('../views/AllCourses'),
+      },
+      {
+        path:'/admin/coursedetail',
+        name:'adminCourseDetail',
+        component: () => import('../views/CourseDetail')
+      },
+      {
+        path:'/admin/mycourse',
+        name:'adminMemberCourse',
+        component: () => import('../views/MemberCourse')
+      },
+      {
+        path:'/admin/allgoods',
+        name:'adminAllGoods',
+        component: () => import('../views/AllGoods'),
+      },
+      {
+        path:'/admin/gooddetail',
+        name:'adminDetail',
+        component: () => import('../views/Detail')
+      },
+      {
+        path:'/admin/cart',
+        name:'adminCart',
+        component: () => import('../views/Cart')
+      },
+      {
+        path:'/admin/myorder',
+        name:'adminMyOrder',
+        component: () => import('../views/MyOrder')
+      },
+    ]
+  },
 
 ]
 

@@ -15,6 +15,7 @@ import com.gymms.entity.dto.LoginFormDto;
 import com.gymms.entity.dto.UserDto;
 import com.gymms.mapper.AdminMapper;
 import com.gymms.mapper.MemberMapper;
+import com.gymms.service.AdminService;
 import com.gymms.service.CoachService;
 import com.gymms.service.MemberService;
 import com.gymms.util.RegexUtils;
@@ -40,15 +41,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     @Resource
     private CoachService coachService;
-
+    @Resource
+    private AdminService adminService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
-//    @Override
-//    public List<Member> getAllMember() {
-//        List<Member> allmembers = memberMapper.getAllMember();
-//        return allmembers;
-//    }
 
     @Override
     public Result sendCode(String phone) {
@@ -88,11 +84,12 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         // 4.一致，根据手机号查询用户 select * from tb_user where phone = ?
         Member member = query().eq("phone_number", phone).one();
 
-        QueryWrapper<Coach> queryWrapper = new QueryWrapper<Coach>().eq("phone_number", phone);
-        Coach coach = coachService.getOne(queryWrapper);;
-
+        QueryWrapper<Coach> coachQueryWrapper = new QueryWrapper<Coach>().eq("phone_number", phone);
+        Coach coach = coachService.getOne(coachQueryWrapper);
+        QueryWrapper<Admin> adminQueryWrapper = new QueryWrapper<Admin>().eq("phone_number", phone);
+        Admin admin = adminService.getOne(adminQueryWrapper);
         // 5.判断用户是否存在
-        if (member == null && coach == null) {
+        if (member == null && coach == null && admin == null) {
             return Result.failed("用户不存在，请注册");
         }
 
@@ -103,7 +100,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         // 7.2.将User对象转为HashMap存储
 
 
-        if (coach == null){
+        if (coach == null && admin == null){
             UserDto userDto = new UserDto();
             userDto.setRole("member");
             userDto.setUserId(member.getMemberId());
@@ -127,12 +124,34 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             // 8.返回token
             return Result.success(userDto);
         }
-        else {
+        else if(admin == null){
             UserDto userDto = new UserDto();
             userDto.setRole("coach");
             userDto.setUserId(coach.getCoachId());
             userDto.setNickName(coach.getNickName());
             if (coach.getPicture() == null)
+                userDto.setPicture("null");
+            else
+                userDto.setPicture(coach.getPicture());
+//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
+            System.out.println(userDto);
+            Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
+                    CopyOptions.create()
+                            .setIgnoreNullValue(true)
+                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+            // 7.3.存储
+            String tokenKey = LOGIN_USER_KEY + token;
+            stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
+            // 7.4.设置token有效期
+            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+            // 8.返回token
+            return Result.success(userDto);
+        }else {
+            UserDto userDto = new UserDto();
+            userDto.setRole("admin");
+            userDto.setUserId(admin.getAdminId());
+            userDto.setNickName(admin.getNickName());
+            if (admin.getPicture() == null)
                 userDto.setPicture("null");
             else
                 userDto.setPicture(coach.getPicture());

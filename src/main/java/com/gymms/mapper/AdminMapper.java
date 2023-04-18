@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper extends BaseMapper<Admin> {
-    List<Admin> getAllAdmin();
-//    Admin findByAdminId(Integer id);
+
 
 }

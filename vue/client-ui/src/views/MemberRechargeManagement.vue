@@ -136,6 +136,7 @@
             userId:this.user.userId,amount:this.amount}).then(res =>{
             if (res.data.code == 200) {
               this.amount = ''
+              this.dialogFormVisible = false
               this.$message.success(res.data.message)
               this.load()
             }else {
@@ -148,6 +149,7 @@
             userId:this.user.userId,amount:this.amount}).then(res =>{
             if (res.data.code == 200) {
               this.amount = ''
+              this.dialogFormVisible = false
               this.$message.success(res.data.message)
               this.load()
             }else {
@@ -161,7 +163,7 @@
         this.$axios.post("http://localhost:8081/member/renew/" , {
           memberId:this.user.userId,renew:this.renew}).then(res =>{
           if (res.data.code == 200) {
-
+            this.dialogFormVisible1 = false
             this.$message.success(res.data.message)
             this.load()
           }else {

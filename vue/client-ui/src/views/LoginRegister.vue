@@ -5,8 +5,8 @@
         <div class="big-contain" v-if="isLogin">
           <div class="btitle">账户登录</div>
           <el-form class="bform" :model="form" ref="form" @submit.native.prevent="login">
-              <el-input class="input" v-model="form.userphone" placeholder="请输入账号/手机号"></el-input>
-              <el-input class="input" placeholder="请输入密码" v-model="form.userpwd" show-password></el-input>
+              <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
+              <el-input class="input" placeholder="请输入验证码" v-model="form.userpwd"></el-input>
             <el-button class="code" type="primary" @click="code">获取验证码</el-button>
             <el-button class="button" type="primary" native-type="submit" round>登录</el-button>
           </el-form>
@@ -19,9 +19,9 @@
 
               <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
 
-              <el-input class="input" placeholder="请输入密码" v-model="form.userpwd" show-password></el-input>
+              <el-input class="input" placeholder="请输入验证码" v-model="form.userpwd"></el-input>
 
-              <el-button class="code" style="top:244px;" type="primary" @click="code">获取验证码</el-button>
+              <el-button class="code" style="top:244px;background-color: rgb(56,183,145);" type="primary" @click="code">获取验证码</el-button>
 
               <el-button class="button" style="background-color: rgb(56,183,145);position:relative;top:30px"
                          type="primary" round native-type="submit">注册</el-button>
@@ -98,6 +98,11 @@
             else if (res.data.data.role == "coach") {
               this.$router.push({
                 path: "/coach/home",
+              });
+            }
+            else if (res.data.data.role == "admin") {
+              this.$router.push({
+                path: "/admin/home",
               });
             }
           }

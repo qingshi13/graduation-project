@@ -2,24 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac1d5455-69e2-4f07-b291-49af672caf42" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/vue/client-ui/src/components/AdminAside.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue/client-ui/src/views/Admin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Subscribe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Subscribe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/entity/dto/CoachMemberDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/entity/dto/CoachMemberDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/mapper/SubscribeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/mapper/SubscribeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/entity/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/mapper/AdminMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/service/impl/AdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gymms/service/impl/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gymms/service/impl/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AppointmentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AppointmentMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/CoachMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/CoachMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SubscribeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SubscribeMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/controller/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/controller/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/entity/dto/LoginFormDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/entity/dto/LoginFormDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/entity/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/entity/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/mapper/AdminMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/mapper/AdminMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/service/AdminService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/service/impl/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/service/impl/AdminServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/gymms/service/impl/MemberServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gymms/service/impl/MemberServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/AdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/AdminMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/client-ui/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/Coach.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/Coach.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/CoachAppointment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/CoachAppointment.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/CoachMember.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/CoachMember.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/LoginRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/LoginRegister.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/MemberCourse.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/MemberCourse.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/client-ui/src/views/MemberRechargeManagement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/client-ui/src/views/MemberRechargeManagement.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,6 +207,12 @@
       <workItem from="1681661967982" duration="7340000" />
       <workItem from="1681709484718" duration="6605000" />
       <workItem from="1681737510737" duration="11270000" />
+      <workItem from="1681792590992" duration="2028000" />
+      <workItem from="1681812023555" duration="871000" />
+      <workItem from="1681812955355" duration="167000" />
+      <workItem from="1681813322453" duration="1725000" />
+      <workItem from="1681822639218" duration="3554000" />
+      <workItem from="1681827125357" duration="603000" />
     </task>
     <task id="LOCAL-00001" summary="提交">
       <created>1681398865717</created>
@@ -232,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681716120234</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="提交">
+      <created>1681792771229</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681792771229</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,10 +284,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="630" y="471" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.864@0.0.1536.864" timestamp="1678621286236" />
-    <state x="354" y="30" key="CommitChangelistDialog2" timestamp="1681716090702">
+    <state x="354" y="30" key="CommitChangelistDialog2" timestamp="1681792765569">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="354" y="30" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1681716090702" />
+    <state x="354" y="30" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1681792765569" />
     <state x="129" y="74" key="DiffContextDialog" timestamp="1681398258052">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -279,45 +296,45 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="568" y="241" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1681395550554" />
-    <state width="1310" height="209" key="GridCell.Tab.0.bottom" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.0.bottom" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.0.center" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.0.center" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.0.left" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.0.left" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.0.right" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.0.right" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.1.bottom" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.1.bottom" timestamp="1681826237069">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1681826237069" />
     <state width="1242" height="228" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.1.center" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.1.center" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.1.left" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.1.left" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
-    <state width="1310" height="209" key="GridCell.Tab.1.right" timestamp="1681751907342">
+    <state width="1310" height="209" key="GridCell.Tab.1.right" timestamp="1681826237068">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1310" height="209" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1681751907342" />
+    <state width="1310" height="209" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1681826237068" />
     <state width="1242" height="228" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1680789881890" />
     <state width="1394" height="257" key="GridCell.Tab.2.bottom" timestamp="1678639272659">
       <screen x="0" y="0" width="1536" height="864" />
@@ -343,10 +360,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="350" y="14" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1681488859419" />
-    <state x="342" y="171" key="Vcs.Push.Dialog.v2" timestamp="1681716147613">
+    <state x="342" y="171" key="Vcs.Push.Dialog.v2" timestamp="1681792781889">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="342" y="171" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1681716147613" />
+    <state x="342" y="171" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1681792781889" />
     <state x="510" y="215" key="extract.method.dialog" timestamp="1681215998484">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

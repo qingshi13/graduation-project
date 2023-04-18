@@ -1,5 +1,6 @@
 package com.gymms.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gymms.entity.Admin;
 import com.gymms.mapper.AdminMapper;
 import com.gymms.service.AdminService;
@@ -9,18 +10,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements AdminService {
     @Resource
     private AdminMapper adminMapper;
 
-    @Override
-    public List<Admin> getAllAdmin() {
-        List<Admin> alladmins = adminMapper.getAllAdmin();
-        return alladmins;
-    }
-
-//    @Override
-//    public Admin findByAdminId(Integer id) {
-//        return null;
-//    }
 }

@@ -16,7 +16,7 @@
             cancel-button-text='我再想想'
             icon="el-icon-info"
             icon-color="red"
-            title="您确定改预约已完成吗?"
+            title="您确定该预约已完成吗?"
             @confirm="complete(scope.row.appointmentId,scope.row.memberId,scope.row.courseId)"
           >
             <el-button type="success" slot="reference">

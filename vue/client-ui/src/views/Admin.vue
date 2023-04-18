@@ -1,9 +1,8 @@
-
 <template>
   <el-container style="height: 100%; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
 
-      <CoachAside></CoachAside>
+      <AdminAside></AdminAside>
     </el-aside>
 
     <el-container>
@@ -19,13 +18,13 @@
 
 </template>
 <script>
-  import CoachAside from "../components/CoachAside"
+  import AdminAside from "../components/AdminAside"
   import Header from "../components/Header"
 
   export default {
-    name:'Coach',
+    name:'Admin',
     components:{
-      CoachAside,
+      AdminAside,
       Header
     },
     data(){

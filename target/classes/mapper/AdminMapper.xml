@@ -5,12 +5,6 @@
 <!-- 整个映射文件为mapper节点，里面包含namespace属性 -->
 <mapper namespace="com.gymms.mapper.AdminMapper">
 
-    <select id="getAllAdmin" resultType="com.gymms.entity.Admin">
-        select * from admin
-    </select>
 
-<!--    <select id="findByAdminId" resultType="admin">-->
-<!--        select * from user where id = #{id};-->
-<!--    </select>-->
 
 </mapper>
