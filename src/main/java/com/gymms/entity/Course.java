@@ -29,5 +29,7 @@ public class Course {
     @TableField(exist = false)
     private String coachName;
     @TableField(exist = false)
+    private String phoneNumber;
+    @TableField(exist = false)
     private String coachPicture;
 }

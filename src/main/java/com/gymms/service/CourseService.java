@@ -1,6 +1,7 @@
 package com.gymms.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gymms.entity.Course;
 
@@ -14,4 +15,6 @@ public interface CourseService  extends IService<Course> {
     Integer getSum(Integer courseId);
 
     Integer getNum(Integer courseId);
+
+    Page<Course> getallcourses(Page<Course> Page, String name, String courseNature, String state);
 }

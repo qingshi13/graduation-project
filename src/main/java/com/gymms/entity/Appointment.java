@@ -18,9 +18,17 @@ public class Appointment {
     private String time;
     private String point;
     private String message;
+    private String state;
+    private Integer num;
 
     @TableField(exist = false)
     private String memberName;
+    @TableField(exist = false)
+    private String memberPhone;
+    @TableField(exist = false)
+    private String coachName;
+    @TableField(exist = false)
+    private String coachPhone;
     @TableField(exist = false)
     private String nickName;
     @TableField(exist = false)

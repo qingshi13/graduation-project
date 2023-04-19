@@ -43,7 +43,7 @@
     },
     methods:{
       getUser(){
-        this.$axios.get("http://localhost:8081/coach/getByCoachId/" + this.user.userId).then(res =>{
+        this.$axios.get("http://localhost:8081/admin/getByAdminId/" + this.user.userId).then(res =>{
           this.user = res.data.data
           this.user.userId = res.data.data.coachId
 

@@ -36,6 +36,21 @@
     <select id="getNum" resultType="java.lang.Integer">
         SELECT count(rate) FROM subscribe WHERE course_id = #{courseId} and rate != ''
     </select>
+    <select id="getallcourses" resultType="com.gymms.entity.Course">
+        select c.*,coach.name as coachName,coach.phone_number as phoneNumber from course c,coach
+        <where>
+            <if test="name != null and name != ''">
+                and c.name like concat('%',#{name},'%')
+            </if>
+            <if test="courseNature != null and courseNature != ''">
+                and c.course_nature = #{courseNature}
+            </if>
+            <if test="state != null and state != ''">
+                and c.state =#{state}
+            </if>
+            and c.coach_id = coach.coach_id
+        </where>
+    </select>
 
 
 </mapper>

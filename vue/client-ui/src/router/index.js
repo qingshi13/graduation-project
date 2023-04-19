@@ -20,7 +20,7 @@ const routes = [
     children:[
       {
         path:'/member/home',
-        name:'home',
+        name:'MemberHome',
         component: () => import('../views/MemberHome')
       },
       {
@@ -148,36 +148,25 @@ const routes = [
         component: () => import('../views/MemberHome')
       },
       {
-        path:'/admin/information',
-        name:'admininformation',
-        component: () => import('../views/MemberModifyInformation')
-      },
-      {
-        path: '/admin/rechargemanagement',
-        name: 'adminRechargeManagement',
-        component: () => import('../views/MemberRechargeManagement'),
-        // alwaysShow:true
-      },
-      {
         path:'/admin/allcoachs',
-        name:'adminAllCoachs',
-        component: () => import('../views/AllCoachs'),
+        name:'AdminCoach',
+        component: () => import('../views/AdminCoach'),
       },
 
       {
         path:'/admin/allcourses',
-        name:'adminAllCourses',
-        component: () => import('../views/AllCourses'),
+        name:'AdminCourse',
+        component: () => import('../views/AdminCourse'),
       },
       {
-        path:'/admin/coursedetail',
-        name:'adminCourseDetail',
-        component: () => import('../views/CourseDetail')
+        path:'/admin/allmembers',
+        name:'AdminMember',
+        component: () => import('../views/AdminMember')
       },
       {
-        path:'/admin/mycourse',
-        name:'adminMemberCourse',
-        component: () => import('../views/MemberCourse')
+        path:'/admin/allappointments',
+        name:'AdminAppointment',
+        component: () => import('../views/AdminAppointment')
       },
       {
         path:'/admin/allgoods',

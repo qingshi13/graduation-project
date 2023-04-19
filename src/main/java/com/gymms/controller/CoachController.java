@@ -47,10 +47,8 @@ public class CoachController {
      */
     @GetMapping("/coach/getByCoachId/{coachId}")
     public Result getByCoachId(@PathVariable Integer coachId){
-        QueryWrapper<Coach> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("coach_id",coachId);
-        Coach one = coachService.getOne(queryWrapper);
-        return Result.success(one);
+
+        return Result.success(coachService.getById(coachId));
     }
 
     /**

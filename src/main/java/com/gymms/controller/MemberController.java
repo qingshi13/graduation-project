@@ -68,10 +68,8 @@ public class MemberController {
      */
     @GetMapping("/member/getByMemberId/{memberId}")
     public Result getByMemberId(@PathVariable Integer memberId){
-        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("member_id",memberId);
-        Member one = memberService.getOne(queryWrapper);
-        return Result.success(one);
+
+        return Result.success(memberService.getById(memberId));
     }
 
     /**

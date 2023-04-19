@@ -37,6 +37,12 @@ public class AppointmentController {
             return Result.failed("请预约一天后的时间段");
         }
 
+        QueryWrapper<Subscribe> courseQueryWrapper = new QueryWrapper<>();
+        courseQueryWrapper.eq( "course_id",appointment.getCourseId());
+        courseQueryWrapper.eq( "member_id",appointment.getMemberId());
+        int num = courseService.getById(appointment.getCourseId()).getNum()-subscribeService.getOne(courseQueryWrapper).getCourseNumber();
+        appointment.setNum(num+1);
+
         String date = appointment.getDate().substring(0, 10);
         String point = appointment.getDate().substring(11, 19);
         String time = appointment.getDate().substring(11, 13);
@@ -54,9 +60,8 @@ public class AppointmentController {
         appointment.setDate(date);
         appointment.setTime(time);
         appointment.setPoint(point);
-        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
-        courseQueryWrapper.eq( "course_id",appointment.getCourseId());
-        int coachId = courseService.getOne(courseQueryWrapper).getCoachId();
+
+        int coachId = courseService.getById(appointment.getCourseId()).getCoachId();
         appointment.setCoachId(coachId);
 
         QueryWrapper<Appointment> appointmentQueryWrapper = new QueryWrapper<>();
@@ -83,17 +88,23 @@ public class AppointmentController {
 
     @PostMapping("/complete")
     public Result complete(@RequestBody Appointment appointment){
-        appointmentService.removeById(appointment.getAppointmentId());
+
+        Appointment appointment1 = appointmentService.getById(appointment.getAppointmentId());
+        appointment1.setState("已完成");
+        appointmentService.updateById(appointment1);
+
         QueryWrapper<Subscribe> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id",appointment.getCourseId());
         queryWrapper.eq("member_id",appointment.getMemberId());
         Subscribe subscribe = subscribeService.getOne(queryWrapper);
         if (subscribe.getCourseNumber() == 1){
-            return Result.success(subscribeService.removeById(subscribe.getSubscribeId()),"该课程学员已学完");
+            subscribe.setCourseNumber(subscribe.getCourseNumber()-1);
+            return Result.success(subscribeService.updateById(subscribe),"该课程学员已学完");
         }
         subscribe.setCourseNumber(subscribe.getCourseNumber()-1);
         subscribeService.updateById(subscribe);
         return Result.success("","该学员还有"+subscribe.getCourseNumber()+"节课");
 
     }
+
 }

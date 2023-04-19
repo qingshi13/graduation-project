@@ -10,8 +10,22 @@
         appointment.course_id as courseId,appointment.member_id as memberId,appointment.date as time,appointment.point as point
         FROM appointment,member,course
         WHERE appointment.course_id = course.course_id and appointment.member_id = member.member_id
-        and course.coach_id = #{coachId}
+        and appointment.state = '未完成' and course.coach_id = #{coachId}
 
+    </select>
+    <select id="getallAppointments" resultType="com.gymms.entity.Appointment">
+        select a.*,m.nick_name as nickName,m.name as memberName,m.phone_number as memberPhone,c.name as coachName,c.phone_number as coachPhone,
+        course.name as courseName
+        from appointment a,member m,coach c,course
+        <where>
+            <if test="name != null and name != ''">
+                and m.name like concat('%',#{name},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and a.state =#{state}
+            </if>
+            and a.course_id = course.course_id and a.member_id = m.member_id and a.coach_id = c.coach_id
+        </where>
     </select>
 
 </mapper>

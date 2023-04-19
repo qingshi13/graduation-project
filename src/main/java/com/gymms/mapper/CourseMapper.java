@@ -20,4 +20,6 @@ public interface CourseMapper extends BaseMapper<Course> {
     Integer getSum(@Param("courseId") Integer courseId);
 
     Integer getNum(@Param("courseId") Integer courseId);
+
+    Page<Course> getallcourses(Page<Course> page,@Param("name") String name,@Param("courseNature") String courseNature,@Param("state") String state);
 }

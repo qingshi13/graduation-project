@@ -24,4 +24,5 @@ public class Member {
     private String address;
     private String expirationTime;
     private String state;
+    private Integer times;
 }

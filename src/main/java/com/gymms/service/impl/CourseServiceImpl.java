@@ -1,5 +1,6 @@
 package com.gymms.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gymms.entity.Course;
 import com.gymms.mapper.CourseMapper;
@@ -33,5 +34,10 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     @Override
     public Integer getNum(Integer courseId) {
         return courseMapper.getNum(courseId);
+    }
+
+    @Override
+    public Page<Course> getallcourses(Page<Course> Page, String name, String courseNature, String state) {
+        return courseMapper.getallcourses(Page,name,courseNature,state);
     }
 }

@@ -20,4 +20,9 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
     public Page<Appointment> getAppointment(Page<Appointment> page, Integer coachId) {
         return appointmentMapper.getAppointment(page,coachId);
     }
+
+    @Override
+    public Page<Appointment> getallappointments(Page<Appointment> page, String name, String state) {
+        return appointmentMapper.getallAppointments(page,name,state);
+    }
 }

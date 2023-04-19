@@ -13,6 +13,7 @@
         left join course on course.course_id = s.course_id
         left join coach on coach.coach_id = course.coach_id
         LEFT JOIN appointment ON appointment.member_id = s.member_id AND appointment.course_id = s.course_id
+        AND appointment.state = '未完成'
         <where>
             <if test="name != null and name != ''">
                 and course.name like concat('%',#{name},'%')
