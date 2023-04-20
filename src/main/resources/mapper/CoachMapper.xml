@@ -13,15 +13,21 @@
         </where>
     </select>
     <select id="Recruit" resultType="java.lang.Integer">
-        SELECT SUM(recruit) FROM course where coach_id = #{coachId}
+        SELECT SUM(recruit) FROM course where coach_id = #{coachId} and (state='已上线' OR state='待审核')
 
     </select>
     <select id="getStudent" resultType="com.gymms.entity.dto.CoachMemberDto">
         SELECT member.name as memberName,member.nick_name as nickName,course.name as courseName,
         member.phone_number as phone,subscribe.time as time
         FROM subscribe,member,course
-        WHERE subscribe.course_id = course.course_id and subscribe.member_id = member.member_id
-        and course.coach_id = #{coachId}
+        <where>
+            <if test="name != null and name != ''">
+                and member.nick_name like concat('%',#{name},'%')
+            </if>
+            and subscribe.course_id = course.course_id
+            and subscribe.member_id = member.member_id
+            and course.coach_id = #{coachId}
+        </where>
 
     </select>
 

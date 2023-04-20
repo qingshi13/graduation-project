@@ -6,18 +6,55 @@
 <mapper namespace="com.gymms.mapper.OrderMapper">
 
     <select id="page" resultType="com.gymms.entity.Orders">
-        select o.*,m.name as username,m.nick_name as nickname from orders o left join member m on o.user_id = m.member_id
+        SELECT allorders.*, allorders.username AS username, allorders.nickname AS nickname, allorders.phoneNumber AS phoneNumber
+        FROM (
+        SELECT o.*, m.name AS username, m.nick_name AS nickname, m.phone_number AS phoneNumber
+        FROM orders o
+        LEFT JOIN member m ON o.user_id = m.member_id
+        WHERE m.nick_name IS NOT NULL
+        UNION DISTINCT
+        SELECT o.*, c.name AS username, c.nick_name AS nickname, NULL AS phoneNumber
+        FROM orders o
+        LEFT JOIN coach c ON o.user_id = c.coach_id
+        WHERE c.nick_name IS NOT NULL
+        ) AS allorders
         <where>
             <if test="name != null and name != ''">
-                and o.name like concat('%',#{name},'%')
+                and allorders.name like concat('%',#{name},'%')
             </if>
             <if test="state != null and state != ''">
-                and o.state = #{state}
+                and allorders.state = #{state}
             </if>
-            and o.user_id = #{id}
+            and allorders.nickname IS NOT NULL
+            and allorders.user_id = #{id}
         </where>
+        ORDER BY allorders.order_id DESC
     </select>
+    <select id="getAallorders" resultType="com.gymms.entity.Orders">
+        SELECT allorders.*, allorders.username AS username, allorders.nickname AS nickname, allorders.phoneNumber AS phoneNumber
+        FROM (
+        SELECT o.*, m.name AS username, m.nick_name AS nickname, m.phone_number AS phoneNumber
+        FROM orders o
+        LEFT JOIN member m ON o.user_id = m.member_id
+        WHERE m.nick_name IS NOT NULL
+        UNION DISTINCT
+        SELECT o.*, c.name AS username, c.nick_name AS nickname, NULL AS phoneNumber
+        FROM orders o
+        LEFT JOIN coach c ON o.user_id = c.coach_id
+        WHERE c.nick_name IS NOT NULL
+        ) AS allorders
+        <where>
+            <if test="no != null and no != ''">
+                and allorders.no like concat('%',#{no},'%')
+            </if>
+            <if test="state != null and state != ''">
+                and allorders.state = #{state}
+            </if>
+            and allorders.nickname IS NOT NULL
 
+        </where>
+        ORDER BY allorders.order_id DESC
+    </select>
 
 
 </mapper>

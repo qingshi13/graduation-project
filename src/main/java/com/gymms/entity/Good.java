@@ -18,7 +18,6 @@ public class Good {
     private String picture;
     private Double price;
     private String description;
-    private Double unit;
     private Integer store;
 
 }

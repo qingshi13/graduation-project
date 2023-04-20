@@ -27,6 +27,8 @@ public class Orders {
     @TableField(exist = false)
     private String nickName;
     @TableField(exist = false)
+    private String phoneNumber;
+    @TableField(exist = false)
     private List<Cart> cart;
     @TableField(exist = false)
     private Integer goodId;

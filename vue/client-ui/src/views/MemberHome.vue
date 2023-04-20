@@ -6,7 +6,7 @@
       </el-carousel-item>
     </el-carousel>
 
-    <div>
+    <div v-if="this.user.role=='member'">
       <el-table style="width: 400px;position: absolute;top: 465px;left: 240px" :data="tableData" border stripe >
         <el-table-column label="日期" prop="date"></el-table-column>
         <el-table-column label="时间" prop="time"></el-table-column>
@@ -186,7 +186,7 @@
             this.load()
             this.$message.success("预约成功")
           }else {
-            this.$message.error("预约失败")
+            this.$message.error(res.data.message)
           }
 
         })

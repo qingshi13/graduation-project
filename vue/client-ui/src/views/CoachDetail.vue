@@ -14,7 +14,7 @@
           <div class="item1" style="font-size: 16px; ">{{ coach.phoneNumber }}</div>
 
           <div class="item1">
-            <el-button type="primary" @click="viewCourses()"><i class="el-icon-edit"></i> 查看课程</el-button>
+            <el-button type="primary" @click="viewCourses()"><i class="el-icon-view"></i> 查看课程</el-button>
           </div>
         </div>
       </div>

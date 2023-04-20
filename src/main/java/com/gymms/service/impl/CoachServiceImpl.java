@@ -43,8 +43,8 @@ public class CoachServiceImpl extends ServiceImpl<CoachMapper, Coach> implements
     }
 
     @Override
-    public Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page, Integer coachId) {
-        return coachMapper.getStudent(page,coachId);
+    public Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page, Integer coachId,String name) {
+        return coachMapper.getStudent(page,coachId,name);
     }
 
 }

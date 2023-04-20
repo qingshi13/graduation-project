@@ -1,10 +1,15 @@
 <template>
   <div>
+    <div style="margin: 10px">
+      <el-input style="width: 400px" placeholder="请输入名称" clearable size="medium" suffix-icon="el-icon-search" v-model="name"></el-input>
+      <el-button class="ml-5" type="primary" @click="load" size="medium"><i class="el-icon-search"></i> 搜 索</eL-button>
+    </div>
 
     <el-table :data="tableData" border stripe size="medium">
       <el-table-column prop="courseName" label="课程名字"></el-table-column>
       <el-table-column prop="nickName" label="会员昵称" width="200"></el-table-column>
       <el-table-column prop="memberName" label="会员名字" width="200"></el-table-column>
+      <el-table-column prop="message" label="会员备注" width="200"></el-table-column>
       <el-table-column prop="time" label="日期" ></el-table-column>
       <el-table-column prop="point" label="时间" ></el-table-column>
 
@@ -86,7 +91,8 @@
           params: {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
-            coachId: this.user.userId
+            coachId: this.user.userId,
+            name: this.name,
           }
         }).then(res => {
           this.tableData = res.data.data.records

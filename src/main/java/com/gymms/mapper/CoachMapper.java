@@ -15,5 +15,5 @@ public interface CoachMapper extends BaseMapper<Coach> {
 
     Integer Recruit(Integer coachId);
 
-    Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page,@Param("coachId") Integer coachId);
+    Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page,@Param("coachId") Integer coachId,@Param("name") String name);
 }

@@ -6,6 +6,7 @@ import com.gymms.entity.Admin;
 import com.gymms.entity.Coach;
 import com.gymms.entity.Course;
 import com.gymms.entity.Member;
+import com.gymms.mapper.OrderMapper;
 import com.gymms.service.AdminService;
 import com.gymms.service.AppointmentService;
 import com.gymms.service.CourseService;
@@ -28,6 +29,8 @@ public class AdminController {
     private CourseService courseService;
     @Resource
     private AppointmentService appointmentService;
+    @Resource
+    private OrderMapper orderMapper;
 
     /**
      * 根据id查管理员
@@ -70,5 +73,12 @@ public class AdminController {
                                      @RequestParam Integer pageSize) {
 
         return Result.success(appointmentService.getallappointments(new Page<>(pageNum, pageSize),name,state));
+    }
+    @GetMapping("/getAallorders")
+    public Result getAallorders(@RequestParam(defaultValue = "") String no,
+                                @RequestParam(defaultValue = "") String state,
+                                @RequestParam Integer pageNum,
+                                @RequestParam Integer pageSize) {
+        return Result.success(orderMapper.getAallorders(new Page<>(pageNum, pageSize), no, state));
     }
 }

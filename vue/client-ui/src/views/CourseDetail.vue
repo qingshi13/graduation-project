@@ -25,7 +25,7 @@
 
           <div class="item1" style="color: orangered;margin-top: -5px;margin-bottom: -1px">价格 ￥ {{ course.courseFees }}</div>
           <div class="item1" style="">
-            <el-button size="medium" style="background-color:#42b983; color: white" v-on:click="getOthers"><i class="el-icon-wallet"></i> 查看同类</el-button>
+            <el-button size="medium" style="background-color:#42b983; color: white" v-on:click="getOthers"><i class="el-icon-view"></i> 查看同类</el-button>
           </div>
           <div class="item1" style="margin-top: -5px">
             <el-popconfirm

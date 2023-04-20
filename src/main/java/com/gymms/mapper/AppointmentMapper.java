@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AppointmentMapper extends BaseMapper<Appointment> {
-    Page<Appointment> getAppointment(Page<Appointment> page,@Param("coachId") Integer coachId);
+    Page<Appointment> getAppointment(Page<Appointment> page,@Param("coachId") Integer coachId,@Param("name") String name);
 
     Page<Appointment> getallAppointments(Page<Appointment> page, String name, String state);
 }

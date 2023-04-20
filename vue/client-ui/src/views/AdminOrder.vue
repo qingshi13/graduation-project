@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin: 10px">
-      <el-input style="width: 400px" placeholder="请输入名称" clearable size="medium" suffix-icon="el-icon-search" v-model="name"></el-input>
+      <el-input style="width: 400px" placeholder="请输入编号" clearable size="medium" suffix-icon="el-icon-search" v-model="name"></el-input>
 
       <el-select v-model="state" size="medium" @change="load" placeholder="订单状态">
         <el-option label="全部" value=""></el-option>
@@ -25,33 +25,23 @@
       <el-table-column prop="nickName" label="用户昵称"></el-table-column>
       <el-table-column label="查看商品" width="180"align="center">
         <template slot-scope="scope">
-          <el-button type="primary" @click="viewGoods(scope.row.orderId)"><i class="el-icon-edit"></i> 查看商品</el-button>
+          <el-button type="primary" @click="viewGoods(scope.row.orderId)"><i class="el-icon-view"></i> 查看商品</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="240" align="center">
+      <el-table-column label="操作" width="140" align="center">
         <template slot-scope="scope" >
+
           <el-popconfirm
-            v-show="scope.row.state == '待付款'"
+            class="ml-5"
             confirm-button-text='确定'
             cancel-button-text='我再想想'
             icon="el-icon-info"
             icon-color="red"
-            title="您确定购买吗?"
-            @confirm="pay(scope.row.orderId)"
-          >
-            <el-button type="success" slot="reference"><i class="el-icon-wallet"></i> 付 款</el-button>
-          </el-popconfirm>
-          <el-popconfirm
-            v-show="scope.row.state == '待付款'"
-            confirm-button-text='确定'
-            cancel-button-text='我再想想'
-            icon="el-icon-info"
-            icon-color="red"
-            title="您确定取消吗?"
+            title="您确定删除吗?"
             @confirm="del(scope.row.orderId)"
           >
-            <el-button type="danger" slot="reference"><i class="el-icon-remove-outline"></i> 取 消</el-button>
+            <el-button type="danger" slot="reference"><i class="el-icon-remove-outline"></i> 删 除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -112,18 +102,7 @@
       this.load()
     },
     methods: {
-      pay(id){
-        this.$axios.post("http://localhost:8081/order/pay/" , {orderId:id}).then(res =>{
-          if (res.data.code == 200) {
-            console.log(res.data)
-            this.$message.success(res.data.data)
-            this.load()
-          }else {
-            this.$message.error(res.data.message)
-            console.log(res.data)
-          }
-        })
-      },
+
       viewGoods(orderId) {
         this.$axios.get("http://localhost:8081/order/getGoodsById/" + orderId).then(res =>{
           this.goodsList = res.data.data
@@ -132,13 +111,12 @@
         })
       },
       load() {
-        this.$axios.get("http://localhost:8081/order/page", {
+        this.$axios.get("http://localhost:8081/admin/getAallorders", {
           params: {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
-            name: this.name,
+            no: this.name,
             state: this.state,
-            Id: this.user.userId
           }
         }).then(res => {
           this.tableData = res.data.data.records

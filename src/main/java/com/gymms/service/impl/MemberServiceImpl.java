@@ -48,60 +48,73 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     @Override
     public Result sendCode(String phone) {
-        // 1.校验手机号
+
         System.out.println(phone);
         if (RegexUtils.isPhoneInvalid(phone)) {
-            // 2.如果不符合，返回错误信息
             return Result.failed("手机号格式错误！");
         }
-        // 3.符合，生成验证码
-        // String code = sendEmail(phone);
+
         String code = RandomUtil.randomNumbers(4);
-        // 4.保存验证码到 session
+
         stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
-        // 5.发送验证码
         System.out.println(code);
-        // 返回ok
         return Result.success(code,"验证码："+code);
     }
 
     @Override
     public Result login(LoginFormDto loginForm) {
-        // 1.校验手机号
+
+        if(loginForm.getPhone().isEmpty()||( loginForm.getCode().isEmpty() && loginForm.getPassword().isEmpty() )){
+
+            return Result.failed("填写不能为空");
+        }
         String phone = loginForm.getPhone();
         if (RegexUtils.isPhoneInvalid(phone)) {
-            // 2.如果不符合，返回错误信息
+
             return Result.failed("手机号格式错误！");
         }
-        // 3.从redis获取验证码并校验
-        String cacheCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
-        String code = loginForm.getCode();
-        if (cacheCode == null || !cacheCode.equals(code)) {
-            // 不一致，报错
-            return Result.failed("验证码错误");
-        }
 
-        // 4.一致，根据手机号查询用户 select * from tb_user where phone = ?
+        UserDto userDto = new UserDto();
+        String token = UUID.randomUUID().toString(true);
+
         Member member = query().eq("phone_number", phone).one();
 
         QueryWrapper<Coach> coachQueryWrapper = new QueryWrapper<Coach>().eq("phone_number", phone);
         Coach coach = coachService.getOne(coachQueryWrapper);
         QueryWrapper<Admin> adminQueryWrapper = new QueryWrapper<Admin>().eq("phone_number", phone);
         Admin admin = adminService.getOne(adminQueryWrapper);
-        // 5.判断用户是否存在
+
         if (member == null && coach == null && admin == null) {
             return Result.failed("用户不存在，请注册");
         }
 
-        System.out.println(coach);
-        // 7.保存用户信息到 redis中
-        // 7.1.随机生成token，作为登录令牌
-        String token = UUID.randomUUID().toString(true);
-        // 7.2.将User对象转为HashMap存储
+        if (!loginForm.getPassword().isEmpty()){
 
+            QueryWrapper<Member> memberQueryWrapper = new QueryWrapper<>();
+            memberQueryWrapper.eq("phone_number", phone);
+            memberQueryWrapper.eq("password",loginForm.getPassword());
+
+            Member member1 = this.getOne(memberQueryWrapper);
+            coachQueryWrapper.eq("password",loginForm.getPassword());
+            Coach coach1 = coachService.getOne(coachQueryWrapper);
+            adminQueryWrapper.eq("password",loginForm.getPassword());
+            Admin admin1 = adminService.getOne(adminQueryWrapper);
+            if (admin1 == null && coach1 == null && member1 == null){
+                return Result.failed("密码错误");
+            }
+            coach = coach1;
+            member = member1;
+            admin = admin1;
+        }else {
+            String cacheCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
+            String code = loginForm.getCode();
+            if (cacheCode == null || !cacheCode.equals(code)) {
+                return Result.failed("验证码错误");
+            }
+        }
 
         if (coach == null && admin == null){
-            UserDto userDto = new UserDto();
+
             userDto.setRole("member");
             userDto.setUserId(member.getMemberId());
             userDto.setNickName(member.getNickName());
@@ -109,23 +122,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 userDto.setPicture("null");
             else
                 userDto.setPicture(member.getPicture());
-//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
-            System.out.println(userDto);
-            Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
-                    CopyOptions.create()
-                            .setIgnoreNullValue(true)
-                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-            // 7.3.存储
-            String tokenKey = LOGIN_USER_KEY + token;
-            stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-            // 7.4.设置token有效期
-            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
-
-            // 8.返回token
-            return Result.success(userDto);
-        }
-        else if(admin == null){
-            UserDto userDto = new UserDto();
+        } else if(admin == null){
             userDto.setRole("coach");
             userDto.setUserId(coach.getCoachId());
             userDto.setNickName(coach.getNickName());
@@ -133,65 +130,49 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 userDto.setPicture("null");
             else
                 userDto.setPicture(coach.getPicture());
-//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
-            System.out.println(userDto);
-            Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
-                    CopyOptions.create()
-                            .setIgnoreNullValue(true)
-                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-            // 7.3.存储
-            String tokenKey = LOGIN_USER_KEY + token;
-            stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-            // 7.4.设置token有效期
-            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
-            // 8.返回token
-            return Result.success(userDto);
         }else {
-            UserDto userDto = new UserDto();
             userDto.setRole("admin");
             userDto.setUserId(admin.getAdminId());
             userDto.setNickName(admin.getNickName());
             if (admin.getPicture() == null)
                 userDto.setPicture("null");
             else
-                userDto.setPicture(coach.getPicture());
-//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
-            System.out.println(userDto);
-            Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
-                    CopyOptions.create()
-                            .setIgnoreNullValue(true)
-                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-            // 7.3.存储
-            String tokenKey = LOGIN_USER_KEY + token;
-            stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-            // 7.4.设置token有效期
-            stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
-            // 8.返回token
-            return Result.success(userDto);
+                userDto.setPicture(admin.getPicture());
+
         }
+
+//        UserDto userDto = BeanUtil.copyProperties(member, UserDto.class);
+        System.out.println(userDto);
+        Map<String, Object> userMap = BeanUtil.beanToMap(userDto, new HashMap<>(),
+                CopyOptions.create()
+                        .setIgnoreNullValue(true)
+                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+        String tokenKey = LOGIN_USER_KEY + token;
+        stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
+        stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+        return Result.success(userDto);
+
     }
 
     @Override
     public Result register(LoginFormDto loginForm) {
 
-        if(loginForm.getPhone().isEmpty()||loginForm.getCode().isEmpty()||loginForm.getNickName().isEmpty()){
+        if(loginForm.getPhone().isEmpty()||loginForm.getPassword().isEmpty()||loginForm.getCode().isEmpty()||loginForm.getNickName().isEmpty()){
 
             return Result.failed("填写不能为空");
         }
         String phone = loginForm.getPhone();
         if (RegexUtils.isPhoneInvalid(phone)) {
-            // 2.如果不符合，返回错误信息
+
             return Result.failed("手机号格式错误！");
         }
-        // 3.从redis获取验证码并校验
+
         String cacheCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
         String code = loginForm.getCode();
         if (cacheCode == null || !cacheCode.equals(code)) {
-            // 不一致，报错
             return Result.failed("验证码错误");
         }
 
-        // 4.一致，根据手机号查询用户 select * from tb_user where phone = ?
         if (query().eq("phone_number", phone).one()!=null){
             return Result.failed("您的账户已存在，请直接登录");
         }
@@ -202,7 +183,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         Member member = new Member();
         member.setMemberId(0);
         member.setCreateTime(DateUtil.now());
-        member.setPassword("123456");
+        member.setPassword(loginForm.getPassword());
         member.setNickName(loginForm.getNickName());
         member.setPhoneNumber(loginForm.getPhone());
         this.saveOrUpdate(member);
@@ -220,13 +201,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 CopyOptions.create()
                         .setIgnoreNullValue(true)
                         .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-        // 7.3.存储
         String tokenKey = LOGIN_USER_KEY + token;
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-        // 7.4.设置token有效期
         stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
 
-        // 8.返回token
         return Result.success(userDto);
     }
 }

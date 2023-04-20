@@ -10,10 +10,6 @@
         <el-descriptions-item label="积分">{{ member.accumulatePoints }}</el-descriptions-item>
         <el-descriptions-item label="会员到期时间">{{ member.expirationTime }}</el-descriptions-item>
         <el-descriptions-item label="会员状态">{{ member.state }}</el-descriptions-item>
-
-        <el-descriptions-item label="备注">
-          <el-tag size="small">学校</el-tag>
-        </el-descriptions-item>
         <el-descriptions-item label="配送地址">{{ member.address }}</el-descriptions-item>
       </el-descriptions>
     </el-card>
@@ -48,7 +44,7 @@
           <el-input v-model="form.address" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item style="text-align: center;display: block">
-          <el-button type="primary" @click.native.preven="save">修 改</el-button>
+          <el-button type="primary" @click="save">修 改</el-button>
         </el-form-item>
       </el-form>
     </el-card>

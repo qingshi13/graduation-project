@@ -10,4 +10,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface OrderMapper extends BaseMapper<Orders> {
     Page<Orders> page(Page<Orders> page, @Param("id") Integer id, @Param("name") String name, @Param("state") String state);
+
+    Page<Orders> getAallorders(Page<Orders> page,@Param("no") String no,@Param("state") String state);
 }

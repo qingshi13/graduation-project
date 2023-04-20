@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@RequestMapping("/course")
 public class CourseController {
     @Resource
     private CourseService courseService;
@@ -26,24 +27,46 @@ public class CourseController {
      * 新增或更新
      * @param
      */
-    @PostMapping("/course/save")
+    @PostMapping("/save")
     public Result save(@RequestBody Course course){
         course.setCourseId(0);
         course.setCreateTime(DateUtil.now());
-        
+        if(course.getNum()==null||course.getDescription()==null||course.getName()==null
+                ||course.getCourseNature()==null||course.getPicture()==null){
+            return Result.failed("填写不能为空");
+        }
         return Result.success(courseService.saveOrUpdate(course));
     }
 
-    @GetMapping("/course/page")
+    @PostMapping("/pass")
+    public Result pass(@RequestBody Course course){
+        Course course1 = courseService.getById(course.getCourseId());
+        course1.setState("已上线");
+        return Result.success(courseService.updateById(course1));
+    }
+    @PostMapping("/fail")
+    public Result fail(@RequestBody Course course){
+
+        Course course1 = courseService.getById(course.getCourseId());
+        course1.setState("未通过");
+        return Result.success(courseService.updateById(course1));
+    }
+
+    @GetMapping("/page")
     public Result Page(@RequestParam(defaultValue = "") String name,
                            @RequestParam Integer Id,
                            @RequestParam Integer pageNum,
                            @RequestParam Integer pageSize) {
-
-        return Result.success(courseMapper.page(new Page<>(pageNum, pageSize), Id, name));
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("course_id");
+        queryWrapper.eq("coach_id",Id);
+        if (!"".equals(name)) {
+            queryWrapper.like("name", name);
+        }
+        return Result.success(courseService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
-    @GetMapping("/course")
+    @GetMapping()
     public Result findPage(@RequestParam(defaultValue = "") String name,
                            @RequestParam(defaultValue = "") String courseNature,
                            @RequestParam Integer pageNum,
@@ -59,7 +82,7 @@ public class CourseController {
         }
         return Result.success(courseService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
-    @GetMapping("/course/getByCoachId/{id}")
+    @GetMapping("/getByCoachId/{id}")
     public Result findByCoachId(@PathVariable Integer id) {
         QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("coach_id",id);
@@ -68,13 +91,13 @@ public class CourseController {
         return Result.success(list);
     }
 
-    @GetMapping("/course/getByCourseId/{id}")
+    @GetMapping("/getByCourseId/{id}")
     public Result findOneByCourseId(@PathVariable Integer id) {
 
         return Result.success(courseService.findOneByCourseId(id));
     }
 
-    @GetMapping("/course/getByCourseNature/{id}")
+    @GetMapping("/getByCourseNature/{id}")
     public Result findByCourseNature(@PathVariable Integer id) {
 
         return Result.success(courseService.findByCourseNature(id));

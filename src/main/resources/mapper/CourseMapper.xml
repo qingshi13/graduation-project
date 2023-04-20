@@ -50,6 +50,7 @@
             </if>
             and c.coach_id = coach.coach_id
         </where>
+        ORDER BY c.course_id DESC
     </select>
 
 

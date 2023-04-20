@@ -7,7 +7,7 @@ import com.gymms.entity.dto.CoachMemberDto;
 import org.springframework.stereotype.Service;
 
 public interface AppointmentService extends IService<Appointment> {
-    Page<Appointment> getAppointment(Page<Appointment> page, Integer coachId);
+    Page<Appointment> getAppointment(Page<Appointment> page, Integer coachId,String name);
 
     Page<Appointment> getallappointments(Page<Appointment> page, String name, String state);
 }

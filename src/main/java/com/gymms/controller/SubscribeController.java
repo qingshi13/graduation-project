@@ -46,10 +46,7 @@ public class SubscribeController {
         Course course = courseService.getById(subscribe.getCourseId());
         Integer sum = courseService.getSum(subscribe.getCourseId());
         Integer num = courseService.getNum(subscribe.getCourseId());
-//        这段代码是将两个整数a和b相除，然后保留两位小数并进行四舍五入。
-//        然后将结果转换回double类型并赋值给变量res。
-//        这段代码使用了BigDecimal类来进行精确计算，并使用setScale方法设置保留位数和舍入模式（这里使用了四舍五入模式）。
-//        最后使用doubleValue方法将BigDecimal类型转换为double类型。
+
         double res = new BigDecimal((double) sum / num).setScale(2, RoundingMode.HALF_UP).doubleValue();
         course.setRate(res);
         courseService.updateById(course);

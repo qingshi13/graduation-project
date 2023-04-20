@@ -24,15 +24,8 @@
       <el-table-column prop="recruit" label="人数" width="60"></el-table-column>
 
       <el-table-column prop="createTime" label="申请时间" width="100"></el-table-column>
-<!--      <el-table-column prop="openTime" label="开课时间" width="100"></el-table-column>-->
       <el-table-column prop="state" label="状态" width="100"></el-table-column>
 
-      <el-table-column label="操作" align="center" width="120">
-        <template slot-scope="scope">
-          <el-button type="success" @click="pay(scope.row)"><i class="el-icon-wallet"></i> 编 辑</el-button>
-
-        </template>
-      </el-table-column>
     </el-table>
 
     <el-dialog title="课程设置" :visible.sync="dialogFormVisible" width="42%" @close="handleClose">
@@ -75,9 +68,6 @@
         </el-form-item>
 
 
-<!--        <el-form-item label="开课时间">-->
-<!--          <el-date-picker v-model="addCourse.openTime" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>-->
-<!--        </el-form-item>-->
       </el-form>
 
       <div class="img">
@@ -100,21 +90,6 @@
       </div>
     </el-dialog>
 
-<!--    <el-dialog title="商品信息" :visible.sync="dialogFormVisible1" width="50%" @close="handleClose">-->
-<!--      <el-table :data="goodsList" border stripe>-->
-<!--        <el-table-column prop="name" label="商品名称"></el-table-column>-->
-<!--        <el-table-column prop="price" label="价格" width="80"></el-table-column>-->
-<!--        <el-table-column prop="description" label="商品描述" width="150"></el-table-column>-->
-<!--        <el-table-column label="图片" width="180">-->
-<!--          <template slot-scope="scope">-->
-<!--            <el-image style="width: 150px; height: 150px" :src="scope.row.picture" :preview-src-list="[scope.row.picture]"></el-image>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--        <el-table-column prop="time" label="下单时间" width="100"></el-table-column>-->
-<!--        <el-table-column prop="num" label="购买数量" width="80"></el-table-column>-->
-
-<!--      </el-table>-->
-<!--    </el-dialog>-->
 
     <div style="padding: 10px 0">
       <el-pagination
@@ -151,13 +126,13 @@
         if (!value) {
           return callback(new Error('课程人数不能为空'));
         }
-        setTimeout(() => {
-          if (value > 10) {
-            callback(new Error('人数不能超过'+ this.recruitNum +'人'));
-          } else {
-            callback();
-          }
-        }, 1000);
+        if (value > this.recruitNum) {
+          callback(new Error('人数不能超过'+ this.recruitNum +'人'));
+        } else {
+          callback();
+        }
+
+
       };
       return{
         goodsList: [],
@@ -225,22 +200,17 @@
           if (valid) {
             this.addCourse.coachId = this.user.userId
             this.$axios.post("http://localhost:8081/course/save", this.addCourse).then(res =>{
+              if (res.data.code == 200) {
+                this.dialogFormVisible = false
+                this.$message.success("提交审核")
+                this.load()
+              }else {
+                this.$message.error(res.data.message)
+              }
 
-              this.dialogFormVisible = false
-              this.load()
             })
-          } else {
-            console.log('error submit!!');
-            return false;
           }
         });
-      },
-      viewGoods(orderId) {
-        this.$axios.get("http://localhost:8081/order/getGoodsById/" + orderId).then(res =>{
-          this.goodsList = res.data.data
-          this.dialogFormVisible1 = true
-          console.log(this.goodsList)
-        })
       },
       load() {
         this.$axios.get("http://localhost:8081/course/page", {
@@ -260,17 +230,6 @@
 
         })
       },
-      del(id){
-        console.log(id)
-        this.$axios.delete("http://localhost:8081/order/" + id).then(res => {
-          if (res.data.code == 200) {
-            this.$message.success("取消成功")
-            this.load()
-          }else {
-            this.$message.error("取消失败")
-          }
-        })
-      },
       handleSizeChange(pageSize) {
         console.log(pageSize)
         this.pageSize = pageSize
@@ -288,24 +247,23 @@
 <style>
   .img{
     text-align: center;
-    margin: 10px;
+    margin: 20px;
     display: inline-block;
     position: relative;
     left: 30px;
-    top: -30px;
+    top: -20px;
   }
-  .img .avatar-uploader .el-upload {
+  .img .avatar-uploader{
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
     width: 200px;
     height: 200px;
-    margin-top: 10px;
+    margin-top: 20px;
     display: block;
   }
-  .img .avatar-uploader .el-upload:hover {
+  .img .avatar-uploader:hover {
     border-color: #409EFF;
   }
   .img .avatar-uploader-icon {

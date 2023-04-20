@@ -80,10 +80,11 @@ public class AppointmentController {
     @GetMapping("/page")
     public Result getAppointment(
             @RequestParam Integer coachId,
+            @RequestParam(defaultValue = "") String name,
             @RequestParam Integer pageNum,
             @RequestParam Integer pageSize){
 
-        return Result.success(appointmentService.getAppointment(new Page<>(pageNum, pageSize), coachId));
+        return Result.success(appointmentService.getAppointment(new Page<>(pageNum, pageSize), coachId,name));
     }
 
     @PostMapping("/complete")

@@ -23,18 +23,25 @@ public class FlowController {
     }
     @PostMapping("/add")
     public Result getflow(@RequestBody Flow flow){
+        Member member = memberService.getById(flow.getMemberId());
+        if (member.getState().equals("未开通")){
+            return Result.failed("您还未开通会员，请开通会员后预约");
+        }
+        if (member.getState().equals("已过期")){
+            return Result.failed("您的会员已过期，请续费会员后预约");
+        }
         QueryWrapper<Flow> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("date",flow.getDate());
         queryWrapper.eq("time",flow.getTime());
         if (flowService.getOne(queryWrapper) == null){
             flow.setFlowId(0);
             flow.setNum(1);
-            Member member = memberService.getById(flow.getMemberId());
+
             member.setTimes(member.getTimes()-1);
             memberService.updateById(member);
             return Result.success(flowService.saveOrUpdate(flow));
         }
-        Member member = memberService.getById(flow.getMemberId());
+
         member.setTimes(member.getTimes()-1);
         memberService.updateById(member);
         flow.setFlowId(flowService.getOne(queryWrapper).getFlowId());

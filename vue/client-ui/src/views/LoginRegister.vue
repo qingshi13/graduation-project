@@ -4,29 +4,33 @@
       <div class="big-box" :class="{active:isLogin}">
         <div class="big-contain" v-if="isLogin">
           <div class="btitle">账户登录</div>
-          <el-form class="bform" :model="form" ref="form" @submit.native.prevent="login">
+            <el-form class="bform" style="height:50%; " :model="form" ref="form" @submit.native.prevent="login">
               <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
-              <el-input class="input" placeholder="请输入验证码" v-model="form.userpwd"></el-input>
-            <el-button class="code" type="primary" @click="code">获取验证码</el-button>
-            <el-button class="button" type="primary" native-type="submit" round>登录</el-button>
-          </el-form>
+              <el-input v-if="isCode" class="input" placeholder="请输入验证码" v-model="form.usercode"></el-input>
+              <el-input v-else class="input" placeholder="请输入密码" v-model="form.userpassword" show-password></el-input>
+              <el-button v-if="isCode" class="code" type="primary" @click="code">获取验证码</el-button>
+              <el-link :underline="false" @click="iscode" v-else class="logintype">验证码登录</el-link>
+              <el-link :underline="false" @click="iscode" v-if="isCode" class="logintype">密码登录</el-link>
+              <el-button class="button" type="primary" native-type="submit" round>登录</el-button>
+            </el-form>
         </div>
         <div class="big-contain" v-else>
           <div class="btitle" style="color: rgb(56,183,145);">创建账户</div>
 
             <el-form class="bform" :model="form" ref="form" @submit.native.prevent="register">
-              <el-input class="input" v-model="form.useraccount" placeholder="请输入用户名"></el-input>
+              <el-input class="input" v-model="form.useraccount" placeholder="请输入昵称"></el-input>
+
+              <el-input class="input" placeholder="请输入密码" v-model="form.userpassword" show-password></el-input>
+              <el-input class="input" placeholder="请确认密码" v-model="form.checkpassword" show-password></el-input>
 
               <el-input class="input" v-model="form.userphone" placeholder="请输入手机号"></el-input>
+              <el-input class="input" placeholder="请输入验证码" v-model="form.usercode"></el-input>
 
-              <el-input class="input" placeholder="请输入验证码" v-model="form.userpwd"></el-input>
+              <el-button class="code" style="top:295px;background-color: rgb(56,183,145);" type="primary" @click="code">获取验证码</el-button>
 
-              <el-button class="code" style="top:244px;background-color: rgb(56,183,145);" type="primary" @click="code">获取验证码</el-button>
-
-              <el-button class="button" style="background-color: rgb(56,183,145);position:relative;top:30px"
+              <el-button class="button" style="background-color: rgb(56,183,145);position:relative;top:20px"
                          type="primary" round native-type="submit">注册</el-button>
             </el-form>
-<!--            <el-input class="input" placeholder="请确认密码" v-model="form.userpwd" show-password></el-input>-->
 
 
         </div>
@@ -51,27 +55,36 @@
 </template>
 
 <script>
-  import { Message } from "element-ui";
-
   export default{
     name:'LoginRegister',
     data(){
       return {
         isLogin:true,
+        isCode:false,
         form:{
           useraccount:'',
+          usercode:'',
           userphone:'',
-          userpwd:''
+          userpassword:'',
+          checkpassword:''
         },
         loading:false,
       }
     },
     methods:{
+      iscode(){
+        this.isCode = !this.isCode
+
+        this.form.usercode = ''
+        this.form.userpassword = ''
+      },
       changeType() {
         this.isLogin = !this.isLogin
         this.form.useraccount = ''
         this.form.userphone = ''
-        this.form.userpwd = ''
+        this.form.usercode = ''
+        this.form.userpassword = ''
+        this.form.checkpassword = ''
       },
 
       code() {
@@ -86,7 +99,11 @@
         })
       },
       login() {
-        this.$axios.post("http://localhost:8081/login/",{phone:this.form.userphone,code:this.form.userpwd}).then(res =>{
+        this.$axios.post("http://localhost:8081/login/",{
+          phone:this.form.userphone,
+          code:this.form.usercode,
+          password:this.form.userpassword,
+        }).then(res =>{
           if(res.data.code == 200){
             console.log(res.data)
             localStorage.setItem('user', JSON.stringify(res.data.data));
@@ -112,18 +129,28 @@
         })
       },
       register(){
-        this.$axios.post("http://localhost:8081/register/",{nickName:this.form.useraccount,phone:this.form.userphone,code:this.form.userpwd}).then(res =>{
-          if(res.data.code == 200){
-            console.log(res.data)
-            localStorage.setItem('user', JSON.stringify(res.data.data));
-            this.$router.push({
-              path: "/member/home",
-            });
-          }
-          else {
-            this.$message.error(res.data.message)
-          }
-        })
+        if (this.form.userpassword == this.form.checkpassword){
+          this.$axios.post("http://localhost:8081/register/",{
+            nickName:this.form.useraccount,
+            phone:this.form.userphone,
+            password:this.form.userpassword,
+            code:this.form.usercode,
+          }).then(res =>{
+            if(res.data.code == 200){
+              console.log(res.data)
+              localStorage.setItem('user', JSON.stringify(res.data.data));
+              this.$router.push({
+                path: "/member/home",
+              });
+            }
+            else {
+              this.$message.error(res.data.message)
+            }
+          })
+        }else {
+          this.$message.error("密码不一致，请重新输入")
+        }
+
       }
     }
   }
@@ -174,28 +201,20 @@
   }
   .bform{
     width: 100%;
-    height: 50%;
+    height: 70%;
     padding: 2em 0;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
   }
-  .bform .errTips{
-    display: block;
-    width: 50%;
-    text-align: left;
-    color: red;
-    font-size: 0.7em;
-    margin-left: 1em;
-  }
+
   .button{
     width: 130px;
     height: 40px;
     background-color: rgb(57,167,176);
     font-size: 1em;
     border: 1px solid #fff;
-
   }
   .code{
     width: 120px;
@@ -205,6 +224,12 @@
     border: 1px solid #fff;
     position: absolute;
     left: 480px;
+  }
+  .logintype{
+    position: absolute;
+    top: 380px;
+    left: 55px;
+    color: rgb(57,167,176);
   }
   .small-box{
     width: 30%;

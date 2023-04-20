@@ -11,6 +11,7 @@ import com.gymms.entity.Recharge;
 import com.gymms.entity.dto.LimitDto;
 import com.gymms.service.CoachService;
 import com.gymms.service.RechargeService;
+import com.gymms.util.RegexUtils;
 import com.gymms.util.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,8 +59,32 @@ public class CoachController {
     @PostMapping("/coach/save")
     public Result save(@RequestBody Coach coach){
         Integer coachId = coach.getCoachId();
-        if (StrUtil.isBlank((coachId).toString())){
-            return Result.validateFailed( "参数错误");
+        if (coachId == null){
+            coach.setCoachId(0);
+            if (coach.getNickName()==null||coach.getName()==null||coach.getPhoneNumber()==null||coach.getPicture()==null
+            ||coach.getPosition()==null||coach.getDescription()==null){
+                return Result.failed("请填完所有信息");
+            }
+            if (RegexUtils.isPhoneInvalid(coach.getPhoneNumber())) {
+                // 2.如果不符合，返回错误信息
+                return Result.failed("手机号格式错误！");
+            }
+            QueryWrapper<Coach> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone_number", coach.getPhoneNumber());
+            if (coachService.getOne(queryWrapper)!=null){
+                return Result.failed("您的账户已存在，请直接登录");
+            }
+            QueryWrapper<Coach> queryWrapper1 = new QueryWrapper<>();
+            queryWrapper1.eq("nick_name", coach.getNickName());
+            if (coachService.getOne(queryWrapper1)!=null){
+                return Result.failed("该昵称已存在，请重新输入");
+            }
+
+            coach.setRemainingSum(0.0);
+            coach.setAccumulatePoints(0);
+            coach.setMaxpeople(10);
+            coach.setCreateTime(DateUtil.now());
+            return Result.success(coachService.saveOrUpdate(coach));
         }
         return Result.success(coachService.saveOrUpdate(coach));
     }
@@ -73,10 +98,11 @@ public class CoachController {
     @GetMapping("/coach/getstudent")
     public Result getStudent(
                         @RequestParam Integer coachId,
+                        @RequestParam(defaultValue = "") String name,
                         @RequestParam Integer pageNum,
                         @RequestParam Integer pageSize){
 
-        return Result.success(coachService.getStudent(new Page<>(pageNum, pageSize), coachId));
+        return Result.success(coachService.getStudent(new Page<>(pageNum, pageSize), coachId,name));
     }
 
     @PostMapping("/coach/recharge")

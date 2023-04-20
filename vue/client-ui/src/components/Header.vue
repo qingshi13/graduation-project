@@ -3,10 +3,11 @@
     <router-link to = "home" class="shouye"><i class="el-icon-s-home"></i>首页</router-link>
     <el-dropdown style="cursor: pointer; left: 1070px">
       <div style="display: inline-block">
-      <el-avatar :src="user.picture"></el-avatar>
-      <span style="
+        <el-avatar :src="user.picture" v-if="user.picture"></el-avatar>
+        <el-avatar icon="el-icon-user-solid" v-else></el-avatar>
+        <span style="
     position: relative ; top: -5px" >{{ user.nickName }}</span>
-    </div>
+      </div>
       <el-dropdown-menu slot="dropdown" >
         <el-dropdown-item>
           <span style="text-decoration: none;" @click="logout()">退 出</span>

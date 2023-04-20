@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public interface CoachService extends IService<Coach> {
     LimitDto limit(Integer coachId);
 
-    Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page, Integer coachId);
+    Page<CoachMemberDto> getStudent(Page<CoachMemberDto> page, Integer coachId,String name);
 //    Result login(LoginFormDto loginForm, HttpSession session);
 
 }

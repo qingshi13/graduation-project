@@ -21,10 +21,6 @@ public class MvcConfig implements WebMvcConfigurer {
 //        // 登录拦截器
 //        registry.addInterceptor(new LoginInterceptor())
 //                .excludePathPatterns(
-//                        "/voucher/**",
-//                        "/shop-type/**",
-//                        "/upload/**",
-//                        "/blog/hot",
 //                        "/code",
 //                        "/login"
 //                ).order(1);

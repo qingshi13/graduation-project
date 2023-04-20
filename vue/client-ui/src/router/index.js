@@ -32,7 +32,6 @@ const routes = [
         path: '/member/rechargemanagement',
         name: 'RechargeManagement',
         component: () => import('../views/MemberRechargeManagement'),
-        // alwaysShow:true
       },
       {
         path:'/member/allcoachs',
@@ -144,8 +143,8 @@ const routes = [
     children:[
       {
         path:'/admin/home',
-        name:'adminhome',
-        component: () => import('../views/MemberHome')
+        name:'AdminHome',
+        component: () => import('../views/AdminHome')
       },
       {
         path:'/admin/allcoachs',
@@ -170,23 +169,13 @@ const routes = [
       },
       {
         path:'/admin/allgoods',
-        name:'adminAllGoods',
-        component: () => import('../views/AllGoods'),
+        name:'AdminGood',
+        component: () => import('../views/AdminGood'),
       },
       {
-        path:'/admin/gooddetail',
-        name:'adminDetail',
-        component: () => import('../views/Detail')
-      },
-      {
-        path:'/admin/cart',
-        name:'adminCart',
-        component: () => import('../views/Cart')
-      },
-      {
-        path:'/admin/myorder',
-        name:'adminMyOrder',
-        component: () => import('../views/MyOrder')
+        path:'/admin/allorders',
+        name:'AdminOrder',
+        component: () => import('../views/AdminOrder')
       },
     ]
   },
