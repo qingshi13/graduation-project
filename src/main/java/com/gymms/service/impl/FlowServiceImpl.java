@@ -9,11 +9,18 @@ import com.gymms.entity.Flow;
 import com.gymms.mapper.FlowMapper;
 import com.gymms.service.FlowService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
 public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements FlowService {
+    @Resource
+    private FlowMapper flowMapper;
     @Override
     public ArrayList<Integer> getflow(String date) {
         ArrayList<Integer> num = new ArrayList<>();
@@ -66,6 +73,41 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         queryWrapper8.eq("date",aftertomorrow);
         queryWrapper8.eq("time","晚上");
         num.add(this.getOne(queryWrapper8) == null ? 0 : this.getOne(queryWrapper8).getNum());
+
+        return num;
+    }
+
+    @Override
+    public ArrayList<Integer> getweek(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date inputDate = sdf.parse(date);
+
+
+        ArrayList<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+
+        // 设置 calendar 为输入日期所在周的第一天
+        calendar.setTime(inputDate);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Date startDate = calendar.getTime();
+
+        // 设置 calendar 为输入日期所在周的最后一天
+        calendar.setTime(inputDate);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        Date endDate = calendar.getTime();
+
+        calendar.setTime(startDate);
+        while (calendar.getTime().before(endDate) || calendar.getTime().equals(endDate)) {
+            dates.add(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+        }
+        ArrayList<Integer> num = new ArrayList<>();
+
+        for (Date weekdate : dates) {
+            num.add(flowMapper.getweek(sdf.format(weekdate))==null?0:flowMapper.getweek(sdf.format(weekdate)));
+        }
 
         return num;
     }

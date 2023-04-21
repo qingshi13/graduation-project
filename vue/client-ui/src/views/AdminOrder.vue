@@ -29,22 +29,22 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="140" align="center">
-        <template slot-scope="scope" >
+<!--      <el-table-column label="操作" width="140" align="center">-->
+<!--        <template slot-scope="scope" >-->
 
-          <el-popconfirm
-            class="ml-5"
-            confirm-button-text='确定'
-            cancel-button-text='我再想想'
-            icon="el-icon-info"
-            icon-color="red"
-            title="您确定删除吗?"
-            @confirm="del(scope.row.orderId)"
-          >
-            <el-button type="danger" slot="reference"><i class="el-icon-remove-outline"></i> 删 除</el-button>
-          </el-popconfirm>
-        </template>
-      </el-table-column>
+<!--          <el-popconfirm-->
+<!--            class="ml-5"-->
+<!--            confirm-button-text='确定'-->
+<!--            cancel-button-text='我再想想'-->
+<!--            icon="el-icon-info"-->
+<!--            icon-color="red"-->
+<!--            title="您确定删除吗?"-->
+<!--            @confirm="del(scope.row.orderId)"-->
+<!--          >-->
+<!--            <el-button type="danger" slot="reference"><i class="el-icon-remove-outline"></i> 删 除</el-button>-->
+<!--          </el-popconfirm>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
 
     <el-dialog title="商品信息" :visible.sync="dialogFormVisible1" width="50%" :close-on-click-modal="false">

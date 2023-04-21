@@ -24,7 +24,7 @@
             :on-success="handleAvatarSuccess"
           >
             <img v-if="form.picture" :src="form.picture" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <i v-else class="el-icon-plus avatar-uploader-iconm"></i>
           </el-upload>
         </div>
         <br>
@@ -116,7 +116,7 @@
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
-  .avatar-uploader-icon {
+  .avatar-uploader-iconm {
     font-size: 28px;
     color: #8c939d;
     width: 128px;

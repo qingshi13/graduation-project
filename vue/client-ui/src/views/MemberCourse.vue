@@ -51,7 +51,12 @@
                size="small">
 
         <el-form-item label="预约时间">
-          <el-date-picker v-model="appointment.date" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>
+          <el-date-picker
+            v-model="appointment.date"
+            type="datetime"
+            :picker-options="{'firstDayOfWeek': 1}"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="日期"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="备注">

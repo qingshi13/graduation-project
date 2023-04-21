@@ -53,14 +53,14 @@
       <div class="img1">
         商品图片
         <el-upload
-          class="avatar-uploader"
+          class="avatar-uploader1"
           action="http://localhost:8081/file/upload"
           :show-file-list="false"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
         >
           <img v-if="this.addGood.picture" :src="this.addGood.picture">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
         </el-upload>
       </div>
 
@@ -97,14 +97,14 @@
       <div class="img1">
         商品图片
         <el-upload
-          class="avatar-uploader"
+          class="avatar-uploader1"
           action="http://localhost:8081/file/upload"
           :show-file-list="false"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
         >
           <img v-if="this.form.picture" :src="this.form.picture">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <i v-else class="el-icon-plus avatar-uploader-icon1"></i>
         </el-upload>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -246,21 +246,20 @@
     left: 30px;
 
   }
-  .img1 .avatar-uploader {
+  .img1 .avatar-uploader1 {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
-    position: relative;
     overflow: hidden;
     width: 200px;
     height: 200px;
     margin-top: 20px;
     display: block;
   }
-  .img1 .avatar-uploader:hover {
+  .img1 .avatar-uploader1:hover {
     border-color: #409EFF;
   }
-  .img1 .avatar-uploader-icon {
+  .img1 .avatar-uploader-icon1 {
     font-size: 28px;
     color: #8c939d;
     width: 200px;

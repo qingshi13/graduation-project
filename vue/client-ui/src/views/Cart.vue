@@ -64,25 +64,6 @@
       <el-button style="color: white; background-color: orangered" size="medium" @click="settleAccount"><i class="el-icon-coin"></i> 结 算</el-button>
     </div>
 
-<!--    <el-dialog title="信息" :visible.sync="dialogFormVisible" width="30%" :close-on-click-modal="false">-->
-<!--      <el-form label-width="100px" size="small" style="">-->
-<!--        <el-form-item label="商品id">-->
-<!--          <el-input v-model="form.goodId" autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="用户id">-->
-<!--          <el-input v-model="form.userId" autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="商品数量">-->
-<!--          <el-input v-model="form.num" autocomplete="off"></el-input></el-form-item>-->
-<!--        <el-form-item label="添加时间">-->
-<!--          <el-date-picker v-model="form.time" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="日期"></el-date-picker>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      <div slot="footer" class="dialog-footer">-->
-<!--        <el-button @click="dialogFormVisible = false">取 消</el-button>-->
-<!--        <el-button type="primary" @click="save">确 定</el-button>-->
-<!--      </div>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 <script>
@@ -107,19 +88,22 @@
     },
     methods: {
       settleAccount (){
-        if (!this.multipleSelection || !this.multipleSelection.length){
+        if (!this.multipleSelection.length){
           this.$message.error("请选择需要结算的商品")
-          return
         }
 
-        let data = {name: this.multipleSelection[0].goodName, totalPrice: this.totalPrice,
-          cart: this.multipleSelection, userId: this.user.userId}
-        this.$axios.post("http://localhost:8081/order", data).then(res => {
+        this.$axios.post("http://localhost:8081/order",
+          {
+            name: this.multipleSelection[0].goodName,
+            totalPrice: this.totalPrice,
+            cart: this.multipleSelection,
+            userId: this.user.userId
+          }).then(res => {
           if (res.data.code == 200 ) {
             this.$message.success("结算成功")
             this.load()
           } else {
-            this.$message.error(res.data.message)
+            this.$message.error("结算失败")
           }
         })
         console.log(data)
@@ -128,7 +112,6 @@
         this.$axios.post("http://localhost:8081/cart/num/" + row.cartId + "/" + row.num).then(res =>{
           this.totalPrice = 0
 
-          // 计算总价格
           this.multipleSelection.forEach(item => {
             this.totalPrice += item.price * item.num
           })
@@ -148,41 +131,6 @@
           this.total = res.data.data.total
         })
       },
-      // save()  {
-      //   this.$axios.post("http://localhost:8081/cart", this.form).then(res => {
-      //     if (res.code == 200 ) {
-      //       this.$message.success("保存成功")
-      //       this.dialogFormVisible = false
-      //       this.load()
-      //     } else {
-      //       this.$message.error("保存失败")
-      //     }
-      //   })
-      // },
-      // handleAdd() {
-      //   this.dialogFormVisible = true
-      //   this.form = {}
-      //   this.$nextTick(() => {
-      //     if (this.$refs.img) {
-      //       this.$refs.img.clearFiles();
-      //     }
-      //     if (this.$refs.file) {
-      //       this.$refs.file.clearFiles();
-      //     }
-      //   })
-      // },
-      // handleEdit(row) {
-      //   this.form = JSON.parse(JSON.stringify(row))
-      //   this.dialogFormVisible = true
-      //   this.$nextTick(() => {
-      //     if (this.$refs.img) {
-      //       this.$refs.img.clearFiles();
-      //     }
-      //     if (this.$refs.file) {
-      //       this.$refs.file.clearFiles();
-      //     }
-      //   })
-      // },
       del(id){
         this.$axios.delete("http://localhost:8081/cart/" + id).then(res => {
           if (res.data.code == 200) {
@@ -205,21 +153,6 @@
 
         }
       },
-      // delBatch() {
-      //   if (!this.multipleSelection.length) {
-      //     this.$message.error("请选择需要删除的数据")
-      //     return
-      //   }
-      //   let ids = this.multipleSelection.map(v => v.id) // [小，，] => [1,2,3]
-      //   this.request.post("http://localhost:8081/cart/del/batch", ids).then(res => {
-      //     if (res.code == 200) {
-      //       this.$message.success("批量删除成功")
-      //       this.load()
-      //     } else {
-      //       this.$message.error("批量删除失败")
-      //     }
-      //   })
-      // },
       handleSizeChange(pageSize) {
         console.log(pageSize)
         this.pageSize = pageSize

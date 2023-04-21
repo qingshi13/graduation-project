@@ -26,7 +26,7 @@
         from appointment a,member m,coach c,course
         <where>
             <if test="name != null and name != ''">
-                and m.name like concat('%',#{name},'%')
+                and m.phone_number like concat('%',#{name},'%')
             </if>
             <if test="state != null and state != ''">
                 and a.state =#{state}

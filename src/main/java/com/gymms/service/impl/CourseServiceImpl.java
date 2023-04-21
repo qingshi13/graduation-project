@@ -8,6 +8,7 @@ import com.gymms.service.CourseService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     }
 
     @Override
-    public List<Course> findByCourseNature(Integer id) {
+    public ArrayList<Course> findByCourseNature(Integer id) {
         return courseMapper.findByCourseNature(id);
     }
 

@@ -9,7 +9,7 @@
     >
 
       <el-submenu index="1">
-        <template slot="title"><i class="el-icon-user"></i>信息管理</template>
+        <template slot="title"><i class="el-icon-user"></i>个人中心</template>
         <el-menu-item-group>
           <el-menu-item index="/coach/information">修改信息</el-menu-item>
           <el-menu-item index="/coach/rechargemanagement">充值管理</el-menu-item>

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,7 +30,7 @@ public class Orders {
     @TableField(exist = false)
     private String phoneNumber;
     @TableField(exist = false)
-    private List<Cart> cart;
+    private ArrayList<Cart> cart;
     @TableField(exist = false)
     private Integer goodId;
     @TableField(exist = false)

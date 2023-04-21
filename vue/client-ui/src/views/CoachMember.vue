@@ -87,39 +87,4 @@
 </script>
 
 <style>
-  .img{
-    text-align: center;
-    margin: 10px;
-    display: inline-block;
-    position: relative;
-    left: 30px;
-    top: -30px;
-  }
-  .img .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    width: 200px;
-    height: 200px;
-    margin-top: 10px;
-    display: block;
-  }
-  .img .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .img .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 200px;
-    height: 200px;
-    line-height: 200px;
-    text-align: center;
-  }
-  .img img{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-  }
 </style>

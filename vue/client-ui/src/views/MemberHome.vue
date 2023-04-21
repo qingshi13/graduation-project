@@ -2,9 +2,12 @@
   <div style="width: 1200px">
     <el-carousel :interval="4000" type="card" height="300px" >
       <el-carousel-item v-for="(item, index) in messageList" :key="index">
-        <h3 class="medium" style="position: relative;top:-60px;left: 40px;font-size:24px;font-weight: bold;color: black">{{ item.title }}</h3>
-        <p style="position: relative;top:-120px;left: 40px;font-size:18px">{{ item.content }}</p>
-        <span class="time" style="position: relative;top:40px;left: 400px">{{ item.createTime }}</span>
+        <div >
+          <h3 class="medium" style="position: absolute;top:-60px;left: 30px;font-size:24px;font-weight: bold;color: black">{{ item.title }}</h3>
+          <p style="position: absolute;top:75px;left: 40px;font-size:18px;width: 530px">{{ item.content }}</p>
+          <span class="time" style="position: absolute;bottom:20px;left: 400px">{{ item.createTime }}</span>
+        </div>
+
       </el-carousel-item>
     </el-carousel>
 

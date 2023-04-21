@@ -54,7 +54,8 @@ public class SubscribeServiceImpl  extends ServiceImpl<SubscribeMapper, Subscrib
         if (coach.getRecruitNumber() == null){
             coach.setRecruitNumber(1);
         }
-        coach.setRecruitNumber(coach.getRecruitNumber()+1);
+        coach.setRemainingSum(coach.getRemainingSum() + course.getCourseFees());
+        coach.setRecruitNumber(coach.getRecruitNumber() + 1);
         coachService.updateById(coach);
         return Result.success("订阅成功");
     }

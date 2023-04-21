@@ -42,34 +42,29 @@ public class OrderController {
     // 新增或者更新
     @PostMapping
     public Result save(@RequestBody Orders order) {
-        if (order.getOrderId() == null) {
-            Date date = new Date();
-            order.setOrderId(0);
-            order.setTime(DateUtil.now());
-            order.setNo(DateUtil.format(date,"yyyyMMdd") + System.currentTimeMillis());
-            orderService.saveOrUpdate(order);
-            List<Cart> carts = order.getCart();
-            if (carts == null){
-                OrderGood orderGood = new OrderGood();
-                orderGood.setGoodId(order.getGoodId());
-                orderGood.setNum(order.getNum());
-                orderGood.setOrderId(order.getOrderId());
-                orderGood.setId(0);
-                orderGoodService.save(orderGood);
-                return Result.success();
-            }
-            for (Cart cart : carts) {
-                OrderGood orderGood = new OrderGood();
-                orderGood.setGoodId(cart.getGoodId());
-                orderGood.setNum(cart.getNum());
-                orderGood.setOrderId(order.getOrderId());
-                orderGood.setId(0);
-                orderGoodService.save(orderGood);
-
-                cartService.removeById(cart.getCartId());
-            }
-        } else {
-            orderService.updateById(order);
+        Date date = new Date();
+        order.setOrderId(0);
+        order.setTime(DateUtil.now());
+        order.setNo(DateUtil.format(date,"yyyyMMdd") + System.currentTimeMillis());
+        orderService.saveOrUpdate(order);
+        ArrayList<Cart> carts = order.getCart();
+        if (carts == null){
+            OrderGood orderGood = new OrderGood();
+            orderGood.setGoodId(order.getGoodId());
+            orderGood.setNum(order.getNum());
+            orderGood.setOrderId(order.getOrderId());
+            orderGood.setId(0);
+            orderGoodService.save(orderGood);
+            return Result.success();
+        }
+        for (Cart cart : carts) {
+            OrderGood orderGood = new OrderGood();
+            orderGood.setGoodId(cart.getGoodId());
+            orderGood.setNum(cart.getNum());
+            orderGood.setOrderId(order.getOrderId());
+            orderGood.setId(0);
+            orderGoodService.save(orderGood);
+            cartService.removeById(cart.getCartId());
         }
         return Result.success();
     }

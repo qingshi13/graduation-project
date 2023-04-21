@@ -7,8 +7,9 @@ import com.gymms.service.FlowService;
 import com.gymms.service.MemberService;
 import com.gymms.util.Result;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
+import java.text.ParseException;
+
 
 @RestController
 @RequestMapping("/flow")
@@ -17,10 +18,12 @@ public class FlowController {
     private FlowService flowService;
     @Resource
     private MemberService memberService;
+
     @GetMapping("/getflow/{date}")
     public Result getflow(@PathVariable String date){
         return Result.success(flowService.getflow(date));
     }
+
     @PostMapping("/add")
     public Result getflow(@RequestBody Flow flow){
         Member member = memberService.getById(flow.getMemberId());
@@ -47,5 +50,12 @@ public class FlowController {
         flow.setFlowId(flowService.getOne(queryWrapper).getFlowId());
         flow.setNum(flowService.getOne(queryWrapper).getNum()+1);
         return Result.success(flowService.saveOrUpdate(flow));
+    }
+
+    @GetMapping("/getweek/{date}")
+    public Result getweek(@PathVariable String date) throws ParseException {
+
+        return Result.success(flowService.getweek(date));
+
     }
 }

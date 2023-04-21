@@ -63,17 +63,17 @@
 
       </el-form>
 
-      <div class="img">
+      <div class="img2">
         教练图片
         <el-upload
-          class="avatar-uploader"
+          class="avatar-uploader2"
           action="http://localhost:8081/file/upload"
           :show-file-list="false"
           :before-upload="beforeAvatarUpload"
           :on-success="handleAvatarSuccess"
         >
           <img v-if="this.addCoach.picture" :src="this.addCoach.picture">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <i v-else class="el-icon-plus avatar-uploader-icon2"></i>
         </el-upload>
       </div>
 
@@ -176,15 +176,15 @@
 </script>
 
 <style scoped>
-  .img{
+  .img2 {
     text-align: center;
-    margin: 20px;
+    margin-left: 20px;
     display: inline-block;
     position: relative;
     left: 30px;
     top: -20px;
   }
-  .img .avatar-uploader {
+  .img2 .avatar-uploader2 {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -194,10 +194,10 @@
     height: 200px;
     display: block;
   }
-  .img .avatar-uploader:hover {
+  .img2 .avatar-uploader2:hover {
     border-color: #409EFF;
   }
-  .img .avatar-uploader-icon {
+  .img2 .avatar-uploader-icon2 {
     font-size: 28px;
     color: #8c939d;
     width: 200px;
@@ -205,7 +205,7 @@
     line-height: 200px;
     text-align: center;
   }
-  .img img{
+  .img2 img{
     width: 200px;
     height: 200px;
     object-fit: cover;

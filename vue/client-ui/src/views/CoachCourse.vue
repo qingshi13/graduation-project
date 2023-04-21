@@ -73,7 +73,7 @@
       <div class="img">
         课程图片
         <el-upload
-          class="avatar-uploader"
+          class="picture-uploader"
           action="http://localhost:8081/file/upload"
           :show-file-list="false"
           :before-upload="beforeAvatarUpload"
@@ -246,24 +246,24 @@
 
 <style>
   .img{
-    text-align: center;
-    margin: 20px;
     display: inline-block;
+    text-align: center;
+    margin-left: 20px;
     position: relative;
     left: 30px;
     top: -20px;
   }
-  .img .avatar-uploader{
+  .img .picture-uploader{
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     overflow: hidden;
+    margin-top: 20px;
     width: 200px;
     height: 200px;
-    margin-top: 20px;
     display: block;
   }
-  .img .avatar-uploader:hover {
+  .img .picture-uploader:hover {
     border-color: #409EFF;
   }
   .img .avatar-uploader-icon {
