@@ -1,8 +1,10 @@
 <template>
   <div style="width: 1200px">
     <el-carousel :interval="4000" type="card" height="300px" >
-      <el-carousel-item v-for="item in 6" :key="item">
-        <h3 class="medium">{{ item }}</h3>
+      <el-carousel-item v-for="(item, index) in messageList" :key="index">
+        <h3 class="medium" style="position: relative;top:-60px;left: 40px;font-size:24px;font-weight: bold;color: black">{{ item.title }}</h3>
+        <p style="position: relative;top:-120px;left: 40px;font-size:18px">{{ item.content }}</p>
+        <span class="time" style="position: relative;top:40px;left: 400px">{{ item.createTime }}</span>
       </el-carousel-item>
     </el-carousel>
 
@@ -68,6 +70,7 @@
       return{
         data:{},
         times: 0,
+        messageList: [],
         tableData: [{
           date: '',
           time: '上午',
@@ -130,6 +133,15 @@
           this.$message.error("无法获取用户信息")
           return
         }
+        this.$axios.get("http://localhost:8081/message/getmessage").then(res => {
+          if (res.data.code == 200) {
+            this.messageList = res.data.data
+            console.log(this.messageList)
+          } else {
+            this.$message.error("获取失败")
+          }
+        })
+
         this.$axios.get("http://localhost:8081/member/getByMemberId/" + memberId).then(res =>{
           this.tableData[0].times = res.data.data.times
           this.tableData[1].times = res.data.data.times

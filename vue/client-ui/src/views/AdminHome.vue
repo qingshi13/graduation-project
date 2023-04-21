@@ -1,10 +1,10 @@
 <template>
   <div style="width: 1200px">
     <el-carousel :interval="4000" type="card" height="300px" >
-      <el-carousel-item v-for="(item, index) in dataList" :key="index">
+      <el-carousel-item v-for="(item, index) in messageList" :key="index">
         <h3 class="medium" style="position: relative;top:-60px;left: 40px;font-size:24px">{{ item.title }}</h3>
         <p style="position: relative;top:-120px;left: 40px;font-size:18px">{{ item.content }}</p>
-        <span class="time" style="position: relative;top:40px;left: 400px">{{ item.time }}</span>
+        <span class="time" style="position: relative;top:40px;left: 400px">{{ item.createTime }}</span>
       </el-carousel-item>
     </el-carousel>
 
@@ -36,38 +36,7 @@
       return{
         form: {},
         data: {},
-        dataList: [
-          {
-            title: "标题1",
-            content: "内容1",
-            time: "2023-04-20 10:00:00"
-          },
-          {
-            title: "标题2",
-            content: "内容2",
-            time: "2023-04-20 12:00:00"
-          },
-          {
-            title: "标题3",
-            content: "内容3",
-            time: "2023-04-20 14:00:00"
-          },
-          {
-            title: "标题4",
-            content: "内容4",
-            time: "2023-04-20 16:00:00"
-          },
-          {
-            title: "标题5",
-            content: "内容5",
-            time: "2023-04-20 18:00:00"
-          },
-          {
-            title: "标题6",
-            content: "内容6",
-            time: "2023-04-20 20:00:00"
-          }
-        ],
+        messageList: [],
         user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
       }
     },
@@ -83,6 +52,14 @@
           this.$router.push('/login')
           return
         }
+        this.$axios.get("http://localhost:8081/message/getmessage").then(res => {
+          if (res.data.code == 200) {
+            this.messageList = res.data.data
+            console.log(this.messageList)
+          } else {
+            this.$message.error("获取失败")
+          }
+        })
 
       },
       release() {

@@ -4,10 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.gymms.entity.Message;
 import com.gymms.service.MessageService;
 import com.gymms.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -22,5 +19,9 @@ public class MessageController {
         message.setCreateTime(DateUtil.now());
         message.setMessageId(0);
         return Result.success(messageService.saveOrUpdate(message));
+    }
+    @GetMapping("/getmessage")
+    public Result getmessage(){
+        return Result.success(messageService.getmessage());
     }
 }
